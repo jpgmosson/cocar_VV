@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgis/postgis:18-3.6-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgispostguesspostmortem
+    ports:
+      - "5432:5432"
+    volumes:
+      - "pgdata:/var/lib/postgresql"
+
+volumes:
+  pgdata:
