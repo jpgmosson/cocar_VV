@@ -11,11 +11,11 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Tests\TestCase;
 
-class PedidoConcomitanteTest extends TestCase
+class CriarPedidoCaronaTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function test_impede_criacao_de_pedido_se_usuario_ja_possui_carona_ativa(): void
+    public function test_bloqueia_novo_pedido_para_usuario_com_carona_em_andamento(): void
     {
         $mapApiMock = Mockery::mock(MapApiService::class);
         $pagamentoMock = Mockery::mock(PagamentoService::class);

@@ -46,7 +46,7 @@ class PedidoCaronaRetencaoTest extends TestCase
         }
     }
 
-    public function test_retém_saldo_maximo_com_sucesso_quando_saldo_suficiente(): void
+    public function test_retem_saldo_maximo_com_sucesso_quando_saldo_suficiente(): void
     {
         $user = User::factory()->create();
         Carteira::forceCreate(['user_id' => $user->id, 'saldo' => '50.00']);
