@@ -57,4 +57,36 @@ Isso criará a estrutura do banco e populará o sistema com usuários de teste (
 
 A aplicação estará disponível em http://localhost:8000.
 
+## Rodando os Testes
+
+A aplicação depende de funções do **PostGIS** (`ST_GeomFromText`, `ST_DWithin`, `ST_Length` etc.) e de colunas `geography` nas migrations, usadas por Services (`TrajetoService`, `SugestaoCaronaService`, `PagamentoService`) e Casts (`PointCast`, `GeoJSONCast`). Por isso, os testes (Unit e Feature) rodam contra um banco **PostgreSQL + PostGIS real**, e não contra SQLite — o SQLite não suporta essas funções e faria os testes falharem por incompatibilidade de banco, não por bug no código.
+
+O banco de testes (`testing`) é **separado do banco de desenvolvimento** (`postgres`), mas roda no mesmo container/serviço `db` já definido no `compose.yaml`.
+
+### Configuração (uma vez por máquina)
+
+1. Suba o container do banco, se ainda não estiver rodando:
+   ```bash
+   docker compose up -d
+   ```
+2. Crie o banco `testing` com a extensão PostGIS habilitada:
+   - **Se o volume do Postgres (`pgdata`) ainda não existia antes desta mudança**, isso já acontece automaticamente: o script `docker/postgres/initdb/01-create-testing-db.sh` é executado pelo Postgres na primeira inicialização do volume e cria o banco `testing` com PostGIS.
+   - **Se você já tinha o volume do Postgres criado** (caso mais comum para quem já rodava o projeto antes), o script de init não roda de novo — crie o banco manualmente:
+     ```bash
+     docker compose exec db psql -U postgres -c "CREATE DATABASE testing;"
+     docker compose exec db psql -U postgres -d testing -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+     ```
+
+Isso só precisa ser feito uma vez; o banco `testing` persiste no volume `pgdata` entre execuções.
+
+### Executando
+
+```bash
+php artisan test --testsuite=Feature
+# ou
+./vendor/bin/pest
+```
+
+As credenciais de teste (`DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`) já estão fixadas no `phpunit.xml` e apontam para o mesmo container do `compose.yaml`, só o `DB_DATABASE` muda (`testing` em vez de `postgres`). Os testes de Feature que usam `RefreshDatabase` rodam as migrations automaticamente contra o banco `testing` antes de cada teste.
+
 Desenvolvido com ☕ e código limpo pela equipe CoCar.
