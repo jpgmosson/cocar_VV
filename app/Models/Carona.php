@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
  * @property Carbon|null $updated_at
  * @property-read PedidoCarona $pedidoCarona
  * @property-read Trajeto $trajeto
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Carona newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Carona newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Carona query()
@@ -30,17 +31,20 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Carona whereTrajetoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Carona whereUpdatedAt($value)
  * @method static Builder<static>|Carona withDistanciaPercorrida()
+ *
  * @property int|null $ordem_parada
  * @property string|null $horario_embarque
  * @property string|null $horario_desembarque
+ *
  * @method static Builder<static>|Carona whereHorarioDesembarque($value)
  * @method static Builder<static>|Carona whereHorarioEmbarque($value)
  * @method static Builder<static>|Carona whereOrdemParada($value)
+ *
  * @mixin \Eloquent
  */
 class Carona extends Model
 {
-    protected $fillable = ['status', 'ordem_parada', 'pedido_carona_id'];
+    protected $fillable = ['status', 'ordem_parada', 'pedido_carona_id', 'trajeto_id'];
 
     protected $casts = ['status' => StatusCarona::class];
 
