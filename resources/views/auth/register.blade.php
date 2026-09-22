@@ -98,18 +98,6 @@
                                 placeholder="Repita a senha">
                         </div>
                     </div>
-                    <div class="field">
-                        <label class="field__label" for="observacao">observacao</label>
-                        <div class="field__input-wrapper">
-                             <input type="text" name="observacao" id="observacao" value="{{ old('observacao') }}">
-
-
-
-                        </div>
-                        @error('observacao')
-                        <span class="text-alert" style="color: red; font-size: 14px;">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <button type="submit" class="btn btn--orange btn--submit" id="btn-enviar">
                         Cadastrar
                     </button>

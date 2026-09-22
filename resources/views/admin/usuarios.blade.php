@@ -31,7 +31,6 @@
                                 @endif
                                 <th class="table__cell table__cell--head">Tipo</th>
                                 <th class="table__cell table__cell--head">Status do Motorista</th>
-                                <th class="table__cell table__cell--head"> Simulado </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +69,6 @@
                                             -
                                         @endif
                                     </td>
-                                    <td class="table__cell">{{ $user->observacao}}</td>
                                 </tr>
                             @empty
                                 <tr class="table__row">

@@ -75,7 +75,7 @@ use Illuminate\Support\Str;
  * @property-read \App\Models\Organizacao|null $organizacao
  * @mixin \Eloquent
  */
-#[Fillable(['name', 'email', 'password', 'tipo', 'organizacao_id', 'cpf', 'observacao'])]
+#[Fillable(['name', 'email', 'password', 'tipo', 'organizacao_id', 'cpf'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {

@@ -27,7 +27,6 @@ class CreateNewUser implements CreatesNewUsers
             'email' => 'required|string|email:rfc,spoof|max:255|unique:users',
             'password' => $this->passwordRules(),
             'cpf' => ['required', 'string', new Cpf, 'unique:users'],
-            'observacao' => 'nullable|string|max:20',
         ])->validate();
 
         $email = $input['email'];
@@ -46,7 +45,6 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
             'cpf' => $input['cpf'],
             'tipo' => TipoUsuario::PADRAO,
-            'observacao' => $input['observacao'] ?? null,
         ]);
 
         $user->carteira()->create();

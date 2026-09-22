@@ -26,7 +26,6 @@
                                 <th class="table__cell table__cell--head">Domínio Email</th>
                                 <th class="table__cell table__cell--head">CNPJ</th>
                                 <th class="table__cell table__cell--head">Quantidade Usuários</th>
-                                <th class="table__cell table__cell--head"> Simulado </th>
                             </tr>
                         </thead>
                         <tbody>
