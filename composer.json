@@ -52,6 +52,7 @@
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185\" \"docker compose up\" \"npx wait-on tcp:127.0.0.1:5432 && php artisan serve\"  \"npm run dev\" --names=db,server,vite --kill-others"
         ],
         "test": [
+            "docker compose up -d",
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
