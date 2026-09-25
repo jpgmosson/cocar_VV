@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, GrupoCarona> $grupos
  * @property-read int|null $grupos_count
  * @property-read User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista query()
@@ -30,10 +32,13 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerfilMotorista whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class PerfilMotorista extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['cnh', 'aprovado_em'];
 
     protected $table = 'perfis_motorista';

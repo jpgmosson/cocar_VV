@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-// MODIFICADO: Adicionado use para o Builder
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property-read PerfilMotorista $motorista
  * @property-read Collection<int, User> $passageiros
  * @property-read int|null $passageiros_count
+ *
  * @method static Builder<static>|GrupoCarona newModelQuery()
  * @method static Builder<static>|GrupoCarona newQuery()
  * @method static Builder<static>|GrupoCarona query()
@@ -33,10 +34,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|GrupoCarona wherePerfilMotoristaId($value)
  * @method static Builder<static>|GrupoCarona whereUpdatedAt($value)
  * @method static Builder<static>|GrupoCarona whereVagas($value)
+ *
  * @mixin \Eloquent
  */
 class GrupoCarona extends Model
 {
+    use HasFactory;
+
     protected $table = 'grupos_carona';
 
     protected $fillable = [

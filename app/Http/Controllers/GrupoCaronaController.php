@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-// MODIFICADO: Adicionado import do GrupoCarona
 use Illuminate\Validation\Rule;
 
 class GrupoCaronaController extends Controller
@@ -20,6 +19,7 @@ class GrupoCaronaController extends Controller
 
         if ($perfilMotorista && $perfilMotorista->aprovado_em) {
             $grupos = $perfilMotorista->grupos()->withCount('passageiros')->with('passageiros')->get();
+
             return view('grupos.index', compact('grupos', 'perfilMotorista'));
         }
 
@@ -29,11 +29,11 @@ class GrupoCaronaController extends Controller
             ->whereDoesntHave('passageiros', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
-            ->whereHas('motorista', function($query) use ($user) {
+            ->whereHas('motorista', function ($query) use ($user) {
                 $query->where('user_id', '!=', $user->id);
             })
             ->get()
-            ->filter(fn($grupo) => $grupo->passageiros_count < $grupo->vagas);
+            ->filter(fn ($grupo) => $grupo->passageiros_count < $grupo->vagas);
 
         return view('grupos.index', compact('meusGrupos', 'gruposDisponiveis', 'perfilMotorista'));
     }
@@ -153,7 +153,6 @@ class GrupoCaronaController extends Controller
         return back()->with('sucesso', 'Você saiu do grupo de carona com sucesso!');
     }
 
-    // MODIFICADO: Método para o motorista excluir o próprio grupo
     public function destroy(GrupoCarona $grupo, Request $request): RedirectResponse
     {
         $perfilMotorista = $request->user()->perfilMotorista;
