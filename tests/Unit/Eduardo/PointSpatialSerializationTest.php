@@ -15,15 +15,15 @@ class PointSpatialSerializationTest extends TestCase
 {
     public function test_point_from_mapeia_x_como_longitude_e_y_como_latitude(): void
     {
-        $pointStr = Point::from('-49.2733,-25.4284');
-        $this->assertEquals(-49.2733, $pointStr->x);
-        $this->assertEquals(-25.4284, $pointStr->y);
+        $pointStr = Point::from('10.0,20.0');
+        $this->assertEquals(10.0, $pointStr->x);
+        $this->assertEquals(20.0, $pointStr->y);
 
-        $pointArr = Point::from([-49.2733, -25.4284]);
-        $this->assertEquals(-49.2733, $pointArr->x);
-        $this->assertEquals(-25.4284, $pointArr->y);
+        $pointArr = Point::from([10.0, 20.0]);
+        $this->assertEquals(10.0, $pointArr->x);
+        $this->assertEquals(20.0, $pointArr->y);
 
-        $this->assertEquals('[-49.2733,-25.4284]', json_encode($pointStr));
+        $this->assertEquals('[10,20]', json_encode($pointStr));
     }
 
     public function test_point_lanca_excecao_para_formato_invalido(): void
@@ -38,14 +38,14 @@ class PointSpatialSerializationTest extends TestCase
         $model = new Trajeto;
 
         /** @var Expression $rawSql */
-        $rawSql = $cast->set($model, 'origem_coords', new Point(-49.2733, -25.4284), []);
+        $rawSql = $cast->set($model, 'origem_coords', new Point(10.0, 20.0), []);
 
         $connection = \Mockery::mock(Connection::class);
         $grammar = new PostgresGrammar($connection);
 
         $this->assertInstanceOf(Expression::class, $rawSql);
         $this->assertEquals(
-            "ST_GeomFromText('POINT(-49.2733 -25.4284)', 4326)",
+            "ST_GeomFromText('POINT(10 20)', 4326)",
             $rawSql->getValue($grammar)
         );
     }
@@ -55,11 +55,11 @@ class PointSpatialSerializationTest extends TestCase
         $cast = new PointCast;
         $model = new Trajeto;
 
-        $geojson = json_encode(['coordinates' => [-49.2733, -25.4284]]);
+        $geojson = json_encode(['coordinates' => [10.0, 20.0]]);
         $point = $cast->get($model, 'origem_coords', $geojson, []);
 
         $this->assertInstanceOf(Point::class, $point);
-        $this->assertEquals(-49.2733, $point->x);
-        $this->assertEquals(-25.4284, $point->y);
+        $this->assertEquals(10.0, $point->x);
+        $this->assertEquals(20.0, $point->y);
     }
 }

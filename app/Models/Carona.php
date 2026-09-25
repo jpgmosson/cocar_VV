@@ -44,7 +44,12 @@ use Illuminate\Support\Facades\DB;
  */
 class Carona extends Model
 {
-    protected $fillable = ['status', 'ordem_parada', 'pedido_carona_id', 'trajeto_id'];
+    protected $fillable = ['status',
+        'ordem_parada',
+        'pedido_carona_id',
+        'trajeto_id',
+        'horario_embarque',
+        'horario_desembarque'];
 
     protected $casts = ['status' => StatusCarona::class];
 

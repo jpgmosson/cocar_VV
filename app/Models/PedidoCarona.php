@@ -6,6 +6,7 @@ use App\Casts\PointCast;
 use App\Enums\StatusCarona;
 use App\Enums\StatusPedidoCarona;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -64,6 +65,8 @@ use Illuminate\Support\Facades\DB;
  */
 class PedidoCarona extends Model
 {
+    use HasFactory;
+
     protected $table = 'pedidos_carona';
 
     protected $fillable = ['origem_coords', 'origem_endereco', 'destino_coords', 'destino_endereco', 'user_id', 'status'];
@@ -101,17 +104,6 @@ class PedidoCarona extends Model
     public function transacoes(): HasMany
     {
         return $this->hasMany(Transacao::class);
-    }
-
-    public static function booted(): void
-    {
-        static::addGlobalScope('as_geojson', function ($builder) {
-            $builder->addSelect([
-                '*',
-                DB::raw('ST_AsGeoJSON(origem_coords) as origem_coords'),
-                DB::raw('ST_AsGeoJSON(destino_coords) as destino_coords'),
-            ]);
-        });
     }
 
     public function distanciaPercorrida(int $trajetoID): int

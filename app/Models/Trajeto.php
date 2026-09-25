@@ -6,11 +6,11 @@ use App\Casts\GeoJSONCast;
 use App\Casts\PointCast;
 use App\Enums\StatusTrajeto;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @property int $id
@@ -73,6 +73,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Trajeto extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'origem_coords',
         'status',
@@ -120,18 +122,5 @@ class Trajeto extends Model
     public function distanciaPercorridaKM(): string
     {
         return bcdiv($this->distancia_percorrida, '1000', 2);
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('as_geojson', function ($builder) {
-            $builder->addSelect([
-                '*',
-                DB::raw('ST_AsGeoJSON(origem_coords) as origem_coords'),
-                DB::raw('ST_AsGeoJSON(destino_coords) as destino_coords'),
-                DB::raw('ST_AsGeoJSON(rota) as rota'),
-                DB::raw('ST_AsGeoJSON(localizacao_motorista) as localizacao_motorista'),
-            ]);
-        });
     }
 }
