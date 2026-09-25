@@ -9,7 +9,7 @@ class DeleteUser
 {
     public function delete(User $user): void
     {
-        $user->delete();
         Auth::logout();
+        $user->delete();
     }
 }

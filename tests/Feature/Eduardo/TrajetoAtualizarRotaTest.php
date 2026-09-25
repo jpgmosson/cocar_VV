@@ -23,6 +23,15 @@ class TrajetoAtualizarRotaTest extends TestCase
         $motorista = User::factory()->create();
         $passageiroPerto = User::factory()->create();
         $passageiroLonge = User::factory()->create();
+        $rotaIneficienteGeoJson = json_encode([
+            'type' => 'LineString',
+            'coordinates' => [
+                [0.0, 0.0],
+                [0.6, 0.0],
+                [0.2, 0.0],
+                [1.0, 0.0],
+            ],
+        ]);
 
         // Rota inicial ineficiente em zigue-zague: Origem (0.0) -> Parada Longe (0.6) -> Volta Parada Perto (0.2) -> Destino (1.0)
         $trajeto = Trajeto::create([
@@ -31,16 +40,7 @@ class TrajetoAtualizarRotaTest extends TestCase
             'origem_endereco' => 'Origem (km 0)',
             'destino_coords' => new Point(1.0, 0.0),
             'destino_endereco' => 'Destino Final (km 100)',
-            'rota' => json_encode([
-                'type' => 'LineString',
-                'coordinates' => [
-                    [0.0, 0.0],
-                    [0.6, 0.0],
-                    [0.2, 0.0],
-                    [1.0, 0.0],
-                ],
-            ]),
-        ]);
+            'rota' => $rotaIneficienteGeoJson]);
 
         // Passageiro 1: Embarque mais distante (x = 0.6)
         $pedidoLonge = PedidoCarona::create([
