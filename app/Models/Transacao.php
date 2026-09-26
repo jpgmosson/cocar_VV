@@ -6,6 +6,7 @@ use App\Enums\StatusTransacao;
 use App\Enums\TipoTransacao;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -45,6 +46,8 @@ use Illuminate\Support\Carbon;
  */
 class Transacao extends Model
 {
+    use HasFactory;
+
     protected $table = 'transacoes';
 
     protected $fillable = ['user_id', 'pedido_carona_id', 'tipo', 'status', 'trajeto_id', 'valor'];
