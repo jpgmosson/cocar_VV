@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "htmx.org": "^2.0.10",
-        "maplibre-gl": "^6.10.0"
+        "maplibre-gl": "^6.10.0",
+        "run": "^2.1.5"
     }
 }
