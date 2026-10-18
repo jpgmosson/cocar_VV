@@ -1,0 +1,9 @@
+# Argumentos pessoais do Robot.
+# Cada pessoa copia este arquivo para tests/Robot/local.args (ignorado pelo git) e ajusta.
+# A pasta de saída é definida por tests/Robot/rodar.ps1 (tests/Robot/results/<Pessoa>).
+
+# Navegador: chrome, firefox, edge, headlesschrome, headlessfirefox
+--variable BROWSER:chrome
+
+# URL da aplicação (php artisan serve)
+--variable BASE_URL:http://127.0.0.1:8000
