@@ -1,0 +1,1794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.11.9 on win32)" generated="2026-10-18T15:33:48.002084" rpa="false" schemaversion="5">
+<suite id="s1" name="JoaoMosson" source="C:\laragon\www\cocar-testes\tests\Robot\JoaoMosson">
+<suite id="s1-s1" name="Autenticacao" source="C:\laragon\www\cocar-testes\tests\Robot\JoaoMosson\autenticacao.robot">
+<test id="s1-s1-t1" name="CT09 - Bloqueio de registro com domínio de e-mail não cadastrado" line="17">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:33:48.320756" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8001'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:33:48.320756" elapsed="16.268464"/>
+</kw>
+<status status="PASS" start="2026-10-18T15:33:48.318757" elapsed="16.270463"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-18T15:34:04.590210" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-10-18T15:34:04.589220" elapsed="0.000990"/>
+</branch>
+<status status="PASS" start="2026-10-18T15:33:48.318757" elapsed="16.272452"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-18T15:34:04.591209" elapsed="0.041514"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-18T15:34:04.633228" elapsed="0.002006"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8001, maximiza e define o timeout. Usa C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe se definido.</doc>
+<status status="PASS" start="2026-10-18T15:33:48.318757" elapsed="16.316477"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:04.637236" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:04.636237" elapsed="1.137937"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:04.636237" elapsed="1.137937"/>
+</kw>
+<kw name="Gerar Dominio Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:05.775175" level="INFO">${dominio} = robot1792348445775twjb.com.br</msg>
+<var>${dominio}</var>
+<doc>Devolve robot&lt;timestamp&gt;&lt;sufixo&gt;.com.br.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.774174" elapsed="0.001001"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:05.775175" level="INFO">${email} = robot.1792348445775qnz1@robot1792348445775twjb.com.br</msg>
+<var>${email}</var>
+<arg>${dominio}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.775175" elapsed="0.000000"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:05.776172" level="INFO">${cpf} = 36870433399</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-18T15:34:05.775175" elapsed="0.000997"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.776172" elapsed="0.071043"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:05.848188" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.847215" elapsed="0.061128"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:05.909371" level="INFO">Typing text 'robot.1792348445775qnz1@robot1792348445775twjb.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.909371" elapsed="0.084164"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.994534" elapsed="0.013942"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:06.008476" level="INFO">Typing text '36870433399' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.008476" elapsed="0.060098"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:05.993535" elapsed="0.075039"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:06.069582" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.069582" elapsed="0.053728"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:06.124327" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.123310" elapsed="0.057330"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:06.181661" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.181661" elapsed="0.067178"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:05.776172" elapsed="0.472667"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.249839" elapsed="1.947225"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:08.205577" level="INFO">Current location contains '/register'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.198064" elapsed="0.007513"/>
+</kw>
+<arg>/register</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:06.249839" elapsed="1.955738"/>
+</kw>
+<kw name="Verificar mensagem de erro de campo" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.field__error</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.206591" elapsed="0.012986"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:08.236578" level="INFO">Element 'css:.field__error' contains text 'O domínio do seu e-mail não está cadastrado com nenhuma organização parceira.'.</msg>
+<arg>css:.field__error</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.219577" elapsed="0.017001"/>
+</kw>
+<arg>${MSG_DOMINIO}</arg>
+<doc>Confere que algum .field__error contém o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.206591" elapsed="0.029987"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:08.364412" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.238598" elapsed="0.125814"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.365429" elapsed="2.179644"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-18T15:34:08.237575" elapsed="2.308330"/>
+</kw>
+<doc>Registro com e-mail de um domínio que nenhuma organização possui.
+Esperado: permanece em /register e o erro sob o e-mail informa que o domínio não está cadastrado.</doc>
+<tag>autenticacao</tag>
+<tag>CT09</tag>
+<status status="PASS" start="2026-10-18T15:33:48.317758" elapsed="22.228147"/>
+</test>
+<test id="s1-s1-t2" name="CT10 - Criação completa de usuário com associação à organização e carteira" line="29">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:10.547904" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8001'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:10.547904" elapsed="1.699820"/>
+</kw>
+<status status="PASS" start="2026-10-18T15:34:10.546905" elapsed="1.701819"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-18T15:34:12.248724" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-10-18T15:34:12.248724" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2026-10-18T15:34:10.546905" elapsed="1.701819"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.249724" elapsed="0.032002"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.282725" elapsed="0.001000"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8001, maximiza e define o timeout. Usa C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe se definido.</doc>
+<status status="PASS" start="2026-10-18T15:34:10.546905" elapsed="1.736820"/>
+</kw>
+<kw name="Auth Registrar usuário descartável">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:12.285730" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.285730" elapsed="0.483192"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:12.284725" elapsed="0.484197"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:12.768922" level="INFO">${email} = robot.1792348452768ihqr@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.768922" elapsed="0.000000"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:12.769991" level="INFO">${cpf} = 65003422750</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-18T15:34:12.769991" elapsed="0.000000"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.770923" elapsed="0.027725"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:12.798648" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.798648" elapsed="0.057369"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:12.857014" level="INFO">Typing text 'robot.1792348452768ihqr@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.856017" elapsed="0.079275"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.936290" elapsed="0.015138"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:12.951428" level="INFO">Typing text '65003422750' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.951428" elapsed="0.072391"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.935292" elapsed="0.088527"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:13.024822" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:13.023819" elapsed="0.071643"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:13.096466" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:13.096466" elapsed="0.063085"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:13.160572" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:13.159551" elapsed="0.055947"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:12.769991" elapsed="0.445507"/>
+</kw>
+<return>
+<value>${email}</value>
+<status status="PASS" start="2026-10-18T15:34:13.215498" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-18T15:34:13.216497" level="INFO">${email} = robot.1792348452768ihqr@org.com.br</msg>
+<var>${email}</var>
+<doc>Registra um usuário novo no domínio do seed e devolve o e-mail gerado.</doc>
+<status status="PASS" start="2026-10-18T15:34:12.284725" elapsed="0.931772"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:13.216497" elapsed="2.557513"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:15.779011" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:15.774010" elapsed="0.005001"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:13.216497" elapsed="2.562514"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:15.781010" level="INFO">Opening url 'http://127.0.0.1:8001/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:15.780039" elapsed="0.491800"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:15.780039" elapsed="0.491800"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.272839" elapsed="0.004998"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.284837" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.278837" elapsed="0.006000"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.272839" elapsed="0.013000"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.405393" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct10-carteira.png"&gt;&lt;img src="ct10-carteira.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct10-carteira.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.285839" elapsed="0.120863"/>
+</kw>
+<kw name="Auth Página não deve ser de erro">
+<kw name="Page Should Contain Element" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.415295" level="INFO">Current page contains element 'css:.wallet__balance'.</msg>
+<arg>css:.wallet__balance</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.406702" elapsed="0.008593"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.429055" level="INFO">Current page does not contain text 'Server Error'.</msg>
+<arg>Server Error</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.415295" elapsed="0.013760"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.459052" level="INFO">Current page does not contain text 'Whoops'.</msg>
+<arg>Whoops</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.429055" elapsed="0.029997"/>
+</kw>
+<doc>Garante que a página atual não é uma tela de erro 404/500.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.406702" elapsed="0.052350"/>
+</kw>
+<kw name="Encerrar sessão" owner="comum">
+<kw name="Delete All Cookies" owner="SeleniumLibrary">
+<doc>Deletes all cookies.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.460156" elapsed="0.017912"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:16.478068" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}/login</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:16.478068" elapsed="0.803197"/>
+</kw>
+<doc>Limpa os cookies em vez de clicar em logout (o botão do perfil não tem @csrf e dá 419).</doc>
+<status status="PASS" start="2026-10-18T15:34:16.460156" elapsed="0.821109"/>
+</kw>
+<kw name="Auth Fazer login">
+<kw name="Auth Tentar login com credenciais">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:17.283390" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.283390" elapsed="0.430654"/>
+</kw>
+<arg>/login</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:17.283390" elapsed="0.430654"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=email]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.715045" elapsed="0.021748"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:17.737792" level="INFO">Typing text 'admin@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.737792" elapsed="0.058056"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:17.796848" level="INFO">Typing text 'SenhaForte!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.795848" elapsed="0.063512"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:17.859360" level="INFO">Clicking button 'css:form[action$="/login"] button[type=submit]'.</msg>
+<arg>css:form[action$="/login"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.859360" elapsed="0.063789"/>
+</kw>
+<arg>${email}</arg>
+<arg>${senha}</arg>
+<doc>Envia o formulário de login sem esperar sucesso (para cenários de falha).</doc>
+<status status="PASS" start="2026-10-18T15:34:17.282389" elapsed="0.640760"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Auth URL não deve conter">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:17.928149" level="INFO">${url} = http://127.0.0.1:8001/login</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.924149" elapsed="0.004000"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<msg time="2026-10-18T15:34:17.929150" level="FAIL">'http://127.0.0.1:8001/login' contains '/login'</msg>
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="FAIL" start="2026-10-18T15:34:17.928149" elapsed="0.001001">'http://127.0.0.1:8001/login' contains '/login'</status>
+</kw>
+<arg>/login</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem keyword pronta).</doc>
+<status status="FAIL" start="2026-10-18T15:34:17.924149" elapsed="0.005999">'http://127.0.0.1:8001/login' contains '/login'</status>
+</kw>
+<kw name="Auth URL não deve conter">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:20.153762" level="INFO">${url} = http://127.0.0.1:8001/dashboard</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-18T15:34:18.131520" elapsed="2.022242"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.154758" elapsed="0.000000"/>
+</kw>
+<arg>/login</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem keyword pronta).</doc>
+<status status="PASS" start="2026-10-18T15:34:18.130513" elapsed="2.024245"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Auth URL não deve conter</arg>
+<arg>/login</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-18T15:34:17.923149" elapsed="2.231609"/>
+</kw>
+<arg>${EMAIL_ADMIN_ORG}</arg>
+<arg>${SENHA_SEED}</arg>
+<doc>Mesmo fluxo de "Fazer login" do resource, sem usar Location Should Not Contain (inexistente).</doc>
+<status status="PASS" start="2026-10-18T15:34:17.282389" elapsed="2.872369"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:20.156759" level="INFO">Opening url 'http://127.0.0.1:8001/dashboard/usuarios'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.155774" elapsed="0.635784"/>
+</kw>
+<arg>/dashboard/usuarios</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:20.155774" elapsed="0.636785"/>
+</kw>
+<kw name="Auth Pesquisar usuário na listagem">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=pesquisa]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.793565" elapsed="0.019996"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:20.814561" level="INFO">Typing text 'robot.1792348452768ihqr@org.com.br' into text field 'css:input[name=pesquisa]'.</msg>
+<arg>css:input[name=pesquisa]</arg>
+<arg>${termo}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.813561" elapsed="0.090041"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:20.904636" level="INFO">Clicking button 'css:#user-filter button[type=submit]'.</msg>
+<arg>css:#user-filter button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.904109" elapsed="0.065336"/>
+</kw>
+<arg>${email}</arg>
+<doc>Digita no campo de busca e aplica os filtros.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.792559" elapsed="0.176886"/>
+</kw>
+<kw name="Auth Tabela de usuários deve conter">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.table</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.970446" elapsed="0.471059"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>xpath://table[contains(@class,'table')]//td[normalize-space()='${texto}']</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-10-18T15:34:21.442502" elapsed="0.006000"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:21.464501" level="INFO">Element 'css:.table' contains text 'robot.1792348452768ihqr@org.com.br'.</msg>
+<arg>css:.table</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:21.449525" elapsed="0.014976"/>
+</kw>
+<arg>${email}</arg>
+<doc>Espera a tabela da listagem conter o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:20.970446" elapsed="0.494055"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:21.575339" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:21.465518" elapsed="0.109821"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-18T15:34:21.575339" elapsed="2.142773"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-18T15:34:21.465518" elapsed="2.252594"/>
+</kw>
+<doc>Registro com e-mail do domínio da organização seed.
+Esperado: usuário logado em /home, /carteira abre normalmente e, depois,
+o admin da organização encontra o novo e-mail na listagem de usuários (vínculo com a organização).</doc>
+<tag>autenticacao</tag>
+<tag>CT10</tag>
+<status status="PASS" start="2026-10-18T15:34:10.546905" elapsed="13.171207"/>
+</test>
+<test id="s1-s1-t3" name="CT12 - Bloqueio e redirecionamento por papel de usuário" line="46">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:23.719617" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8001'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:23.719617" elapsed="1.578902"/>
+</kw>
+<status status="PASS" start="2026-10-18T15:34:23.719617" elapsed="1.578902"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-18T15:34:25.299518" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-10-18T15:34:25.298519" elapsed="0.000999"/>
+</branch>
+<status status="PASS" start="2026-10-18T15:34:23.719617" elapsed="1.579901"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.299518" elapsed="0.027438"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.326956" elapsed="0.001998"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8001, maximiza e define o timeout. Usa C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe se definido.</doc>
+<status status="PASS" start="2026-10-18T15:34:23.719617" elapsed="1.609337"/>
+</kw>
+<kw name="Auth Fazer login">
+<kw name="Auth Tentar login com credenciais">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:25.332956" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.332956" elapsed="0.514137"/>
+</kw>
+<arg>/login</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:25.332956" elapsed="0.515139"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=email]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.848095" elapsed="0.018995"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:25.867090" level="INFO">Typing text 'passageiro@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.867090" elapsed="0.067885"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:25.935974" level="INFO">Typing text 'SenhaForte!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.934975" elapsed="0.054994"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:25.990991" level="INFO">Clicking button 'css:form[action$="/login"] button[type=submit]'.</msg>
+<arg>css:form[action$="/login"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:25.990991" elapsed="0.058617"/>
+</kw>
+<arg>${email}</arg>
+<arg>${senha}</arg>
+<doc>Envia o formulário de login sem esperar sucesso (para cenários de falha).</doc>
+<status status="PASS" start="2026-10-18T15:34:25.329955" elapsed="0.719653"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Auth URL não deve conter">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:27.414262" level="INFO">${url} = http://127.0.0.1:8001/home</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-18T15:34:26.050607" elapsed="1.363655"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="PASS" start="2026-10-18T15:34:27.414262" elapsed="0.000997"/>
+</kw>
+<arg>/login</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem keyword pronta).</doc>
+<status status="PASS" start="2026-10-18T15:34:26.050607" elapsed="1.364652"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Auth URL não deve conter</arg>
+<arg>/login</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-18T15:34:26.049608" elapsed="1.365651"/>
+</kw>
+<arg>${EMAIL_PASSAGEIRO}</arg>
+<arg>${SENHA_SEED}</arg>
+<doc>Mesmo fluxo de "Fazer login" do resource, sem usar Location Should Not Contain (inexistente).</doc>
+<status status="PASS" start="2026-10-18T15:34:25.329955" elapsed="2.085304"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:27.416260" level="INFO">Opening url 'http://127.0.0.1:8001/dashboard/usuarios'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:27.416260" elapsed="0.861625"/>
+</kw>
+<arg>/dashboard/usuarios</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:27.416260" elapsed="0.861625"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.279008" elapsed="0.003876"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:28.290885" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.282884" elapsed="0.008001"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.279008" elapsed="0.011877"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:28.395770" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct12-passageiro-bloqueado.png"&gt;&lt;img src="ct12-passageiro-bloqueado.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct12-passageiro-bloqueado.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.290885" elapsed="0.104885"/>
+</kw>
+<kw name="Auth URL não deve conter">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:28.403798" level="INFO">${url} = http://127.0.0.1:8001/home</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.396770" elapsed="0.007028"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.403798" elapsed="0.000987"/>
+</kw>
+<arg>/dashboard</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem keyword pronta).</doc>
+<status status="PASS" start="2026-10-18T15:34:28.396770" elapsed="0.008015"/>
+</kw>
+<kw name="Encerrar sessão" owner="comum">
+<kw name="Delete All Cookies" owner="SeleniumLibrary">
+<doc>Deletes all cookies.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.404785" elapsed="0.009996"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:28.415800" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}/login</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.414781" elapsed="0.374501"/>
+</kw>
+<doc>Limpa os cookies em vez de clicar em logout (o botão do perfil não tem @csrf e dá 419).</doc>
+<status status="PASS" start="2026-10-18T15:34:28.404785" elapsed="0.385494"/>
+</kw>
+<kw name="Auth Fazer login">
+<kw name="Auth Tentar login com credenciais">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:28.793283" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:28.792281" elapsed="0.415051"/>
+</kw>
+<arg>/login</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:28.791282" elapsed="0.416050"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=email]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.208331" elapsed="0.020043"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:29.229394" level="INFO">Typing text 'admin@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.228374" elapsed="0.061996"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:29.290370" level="INFO">Typing text 'SenhaForte!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.290370" elapsed="0.055266"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:29.346651" level="INFO">Clicking button 'css:form[action$="/login"] button[type=submit]'.</msg>
+<arg>css:form[action$="/login"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.345636" elapsed="0.052599"/>
+</kw>
+<arg>${email}</arg>
+<arg>${senha}</arg>
+<doc>Envia o formulário de login sem esperar sucesso (para cenários de falha).</doc>
+<status status="PASS" start="2026-10-18T15:34:28.791282" elapsed="0.606953"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Auth URL não deve conter">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:31.011722" level="INFO">${url} = http://127.0.0.1:8001/dashboard</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.399234" elapsed="1.612488"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.011722" elapsed="0.001033"/>
+</kw>
+<arg>/login</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem keyword pronta).</doc>
+<status status="PASS" start="2026-10-18T15:34:29.399234" elapsed="1.613521"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Auth URL não deve conter</arg>
+<arg>/login</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-18T15:34:29.398235" elapsed="1.614520"/>
+</kw>
+<arg>${EMAIL_ADMIN_ORG}</arg>
+<arg>${SENHA_SEED}</arg>
+<doc>Mesmo fluxo de "Fazer login" do resource, sem usar Location Should Not Contain (inexistente).</doc>
+<status status="PASS" start="2026-10-18T15:34:28.791282" elapsed="2.221473"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:31.014726" level="INFO">Opening url 'http://127.0.0.1:8001/home'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.013749" elapsed="0.789447"/>
+</kw>
+<arg>/home</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:31.013749" elapsed="0.789447"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.804190" elapsed="0.006000"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:31.813195" level="INFO">Current location contains '/dashboard'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.810190" elapsed="0.004024"/>
+</kw>
+<arg>/dashboard</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.804190" elapsed="0.010024"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:31.935717" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.815210" elapsed="0.120507"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.936794" elapsed="2.125730"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-18T15:34:31.814214" elapsed="2.248310"/>
+</kw>
+<doc>a) Passageiro tentando abrir /dashboard/usuarios volta para /home.
+b) Admin da organização abrindo /home vai para /dashboard.
+Valida somente a URL final: a mensagem "Acesso negado" é enviada em session('error'),
+mas nenhuma view a exibe.</doc>
+<tag>autenticacao</tag>
+<tag>CT12</tag>
+<status status="PASS" start="2026-10-18T15:34:23.718112" elapsed="10.344412"/>
+</test>
+<test id="s1-s1-t4" name="CT14 - Exclusão de usuário e encerramento de sessão" line="62">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:34.064507" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8001'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:34.064507" elapsed="1.557856"/>
+</kw>
+<status status="PASS" start="2026-10-18T15:34:34.064507" elapsed="1.557856"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-18T15:34:35.623358" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-10-18T15:34:35.622363" elapsed="0.000995"/>
+</branch>
+<status status="PASS" start="2026-10-18T15:34:34.064507" elapsed="1.558851"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-18T15:34:35.623358" elapsed="0.047519"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-18T15:34:35.670877" elapsed="0.002002"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8001, maximiza e define o timeout. Usa C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe se definido.</doc>
+<status status="PASS" start="2026-10-18T15:34:34.064507" elapsed="1.608372"/>
+</kw>
+<kw name="Auth Registrar usuário descartável">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:35.674877" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:35.674877" elapsed="0.506443"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:35.673875" elapsed="0.507445"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:36.182317" level="INFO">${email} = robot.17923484761829asb@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.182317" elapsed="0.000000"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:36.182317" level="INFO">${cpf} = 86433302211</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-18T15:34:36.182317" elapsed="0.000000"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.183333" elapsed="0.039797"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.223130" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.223130" elapsed="0.052538"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.275668" level="INFO">Typing text 'robot.17923484761829asb@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.275668" elapsed="0.085914"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.362537" elapsed="0.026010"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.389549" level="INFO">Typing text '86433302211' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.388547" elapsed="0.061040"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.362033" elapsed="0.087554"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.450586" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.450586" elapsed="0.077999"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.529613" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.529613" elapsed="0.056335"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:36.586948" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:36.586948" elapsed="1.282023"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:36.182317" elapsed="1.686654"/>
+</kw>
+<return>
+<value>${email}</value>
+<status status="PASS" start="2026-10-18T15:34:37.868971" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-18T15:34:37.869969" level="INFO">${email} = robot.17923484761829asb@org.com.br</msg>
+<var>${email}</var>
+<doc>Registra um usuário novo no domínio do seed e devolve o e-mail gerado.</doc>
+<status status="PASS" start="2026-10-18T15:34:35.673875" elapsed="2.196094"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:37.869969" elapsed="0.005999"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:37.880967" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:37.875968" elapsed="0.004999"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:37.869969" elapsed="0.010998"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:37.881966" level="INFO">Opening url 'http://127.0.0.1:8001/perfil'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:37.881966" elapsed="0.872252"/>
+</kw>
+<arg>/perfil</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:37.881966" elapsed="0.872252"/>
+</kw>
+<kw name="Auth Excluir a própria conta">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:form[action$="/deletar-conta"] button[type=submit]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:38.755218" elapsed="0.016840"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:38.772058" level="INFO">Clicking button 'css:form[action$="/deletar-conta"] button[type=submit]'.</msg>
+<arg>css:form[action$="/deletar-conta"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:38.772058" elapsed="1.003772"/>
+</kw>
+<doc>Clica em "Excluir Permanentemente" do perfil (form /deletar-conta, sem confirmação).</doc>
+<status status="PASS" start="2026-10-18T15:34:38.754218" elapsed="1.021612"/>
+</kw>
+<kw name="Auth URL deve ser a raiz">
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Location Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:39.787834" level="INFO">Current location is 'http://127.0.0.1:8001/'.</msg>
+<arg>${BASE_URL}/</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:39.778834" elapsed="0.009000"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Location Should Be</arg>
+<arg>${BASE_URL}/</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-18T15:34:39.777838" elapsed="0.009996"/>
+</kw>
+<doc>Espera o navegador chegar na raiz do site.</doc>
+<status status="PASS" start="2026-10-18T15:34:39.776831" elapsed="0.011003"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:39.900699" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct14-conta-excluida.png"&gt;&lt;img src="ct14-conta-excluida.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct14-conta-excluida.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:39.787834" elapsed="0.112865"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:39.902749" level="INFO">Opening url 'http://127.0.0.1:8001/perfil'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:39.901700" elapsed="0.982266"/>
+</kw>
+<arg>/perfil</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:39.901700" elapsed="0.982266"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:40.885964" elapsed="0.043007"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:40.951506" level="INFO">Current location contains '/login'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:40.928971" elapsed="0.022535"/>
+</kw>
+<arg>/login</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:40.884961" elapsed="0.066545"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:41.070361" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct14-perfil-redireciona-login.png"&gt;&lt;img src="ct14-perfil-redireciona-login.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct14-perfil-redireciona-login.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:40.954044" elapsed="0.116317"/>
+</kw>
+<kw name="Auth Tentar login com credenciais">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:41.072360" level="INFO">Opening url 'http://127.0.0.1:8001/login'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.072360" elapsed="0.490869"/>
+</kw>
+<arg>/login</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:41.071360" elapsed="0.491869"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=email]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.563229" elapsed="0.018588"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:41.582816" level="INFO">Typing text 'robot.17923484761829asb@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.581817" elapsed="0.077531"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:41.660348" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.659348" elapsed="0.080124"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:41.739472" level="INFO">Clicking button 'css:form[action$="/login"] button[type=submit]'.</msg>
+<arg>css:form[action$="/login"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.739472" elapsed="0.076921"/>
+</kw>
+<arg>${email}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Envia o formulário de login sem esperar sucesso (para cenários de falha).</doc>
+<status status="PASS" start="2026-10-18T15:34:41.071360" elapsed="0.745033"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.818398" elapsed="1.012443"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:42.839370" level="INFO">Current location contains '/login'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.830841" elapsed="0.008529"/>
+</kw>
+<arg>/login</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:41.817392" elapsed="1.021978"/>
+</kw>
+<kw name="Verificar mensagem de erro de campo" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.field__error</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.840371" elapsed="0.020241"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:42.879482" level="INFO">Element 'css:.field__error' contains text 'credenciais indicadas não coincidem'.</msg>
+<arg>css:.field__error</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.861182" elapsed="0.018300"/>
+</kw>
+<arg>${TRECHO_CREDENCIAL}</arg>
+<doc>Confere que algum .field__error contém o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.840371" elapsed="0.039111"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:43.007952" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.880565" elapsed="0.127387"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-18T15:34:43.007952" elapsed="2.144386"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-18T15:34:42.880565" elapsed="2.271773"/>
+</kw>
+<doc>Usuário descartável exclui a própria conta pelo perfil (sem confirmação JS).
+Esperado: termina na raiz, /perfil redireciona para /login e o login com as mesmas
+credenciais falha com a mensagem de credenciais inválidas.</doc>
+<tag>autenticacao</tag>
+<tag>CT14</tag>
+<status status="PASS" start="2026-10-18T15:34:34.063514" elapsed="11.089825"/>
+</test>
+<test id="s1-s1-t5" name="CT15 - Validação de CPF" line="80">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:45.155339" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8001'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:45.155339" elapsed="1.588772"/>
+</kw>
+<status status="PASS" start="2026-10-18T15:34:45.154339" elapsed="1.589772"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-18T15:34:46.744719" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-10-18T15:34:46.744111" elapsed="0.001142"/>
+</branch>
+<status status="PASS" start="2026-10-18T15:34:45.154339" elapsed="1.590914"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-18T15:34:46.745253" elapsed="0.036585"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-18T15:34:46.782265" elapsed="0.001512"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8001, maximiza e define o timeout. Usa C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe se definido.</doc>
+<status status="PASS" start="2026-10-18T15:34:45.154339" elapsed="1.630442"/>
+</kw>
+<for flavor="IN">
+<iter>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:46.785778" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:46.785778" elapsed="0.564532"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:46.785778" elapsed="0.564532"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:47.351319" level="INFO">${email} = robot.1792348487351q0ze@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.350310" elapsed="0.001009"/>
+</kw>
+<kw name="Gerar Cpf Invalido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:47.351319" level="INFO">${cpf} = 69819151387</msg>
+<var>${cpf}</var>
+<arg>${tipo}</arg>
+<doc>CPF inválido. tipo: digito_errado, repetido ou tamanho.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.351319" elapsed="0.000000"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.352311" elapsed="0.021001"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.374311" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.374311" elapsed="0.053309"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.428619" level="INFO">Typing text 'robot.1792348487351q0ze@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.427620" elapsed="0.078506"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.507127" elapsed="0.033252"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.541384" level="INFO">Typing text '69819151387' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.540379" elapsed="0.058915"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.506126" elapsed="0.094167"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.601295" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.600293" elapsed="0.063429"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.664744" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.664744" elapsed="0.058978"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:47.724720" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.724720" elapsed="0.076692"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:47.352311" elapsed="0.449101"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.802411" elapsed="0.907287"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:48.715728" level="INFO">Current location contains '/register'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.709698" elapsed="0.006030"/>
+</kw>
+<arg>/register</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:47.802411" elapsed="0.913317"/>
+</kw>
+<kw name="Verificar mensagem de erro de campo" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.field__error</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.716720" elapsed="0.015012"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:48.744705" level="INFO">Element 'css:.field__error' contains text 'não é um CPF válido'.</msg>
+<arg>css:.field__error</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.731732" elapsed="0.012973"/>
+</kw>
+<arg>${TRECHO_CPF_INVALIDO}</arg>
+<doc>Confere que algum .field__error contém o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.715728" elapsed="0.028977"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:48.853166" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct15-cpf-digito_errado.png"&gt;&lt;img src="ct15-cpf-digito_errado.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct15-cpf-${tipo}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.745718" elapsed="0.107448"/>
+</kw>
+<var name="${tipo}">digito_errado</var>
+<status status="PASS" start="2026-10-18T15:34:46.784781" elapsed="2.068385"/>
+</iter>
+<iter>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:48.854211" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:48.854211" elapsed="0.402403"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:48.854211" elapsed="0.402403"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:49.257614" level="INFO">${email} = robot.17923484892563xbk@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.256614" elapsed="0.001000"/>
+</kw>
+<kw name="Gerar Cpf Invalido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:49.258613" level="INFO">${cpf} = 22222222222</msg>
+<var>${cpf}</var>
+<arg>${tipo}</arg>
+<doc>CPF inválido. tipo: digito_errado, repetido ou tamanho.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.257614" elapsed="0.000999"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.259614" elapsed="0.013996"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.274633" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.274633" elapsed="0.051979"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.326612" level="INFO">Typing text 'robot.17923484892563xbk@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.326612" elapsed="0.083633"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.411239" elapsed="0.012985"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.425239" level="INFO">Typing text '22222222222' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.424224" elapsed="0.061410"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.410245" elapsed="0.075389"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.486633" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.486633" elapsed="0.061580"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.548213" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.548213" elapsed="0.057241"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:49.606452" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.606452" elapsed="0.054587"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:49.258613" elapsed="0.402426"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.662036" elapsed="0.003001"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:50.471288" level="INFO">Current location contains '/register'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.665037" elapsed="0.806251"/>
+</kw>
+<arg>/register</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:49.661039" elapsed="0.810249"/>
+</kw>
+<kw name="Verificar mensagem de erro de campo" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.field__error</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:50.473287" elapsed="0.016021"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:50.500307" level="INFO">Element 'css:.field__error' contains text 'não é um CPF válido'.</msg>
+<arg>css:.field__error</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:50.489308" elapsed="0.010999"/>
+</kw>
+<arg>${TRECHO_CPF_INVALIDO}</arg>
+<doc>Confere que algum .field__error contém o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:50.472290" elapsed="0.028017"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:50.638795" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct15-cpf-repetido.png"&gt;&lt;img src="ct15-cpf-repetido.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct15-cpf-${tipo}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:50.500307" elapsed="0.139498"/>
+</kw>
+<var name="${tipo}">repetido</var>
+<status status="PASS" start="2026-10-18T15:34:48.853166" elapsed="1.786639"/>
+</iter>
+<iter>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:50.640806" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:50.640806" elapsed="0.494878"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:50.639805" elapsed="0.495879"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:51.136684" level="INFO">${email} = robot.17923484911366ibl@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.135684" elapsed="0.001000"/>
+</kw>
+<kw name="Gerar Cpf Invalido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:51.136684" level="INFO">${cpf} = 3707715027</msg>
+<var>${cpf}</var>
+<arg>${tipo}</arg>
+<doc>CPF inválido. tipo: digito_errado, repetido ou tamanho.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.136684" elapsed="0.000000"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.137684" elapsed="0.012638"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.151306" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.150322" elapsed="0.055089"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.206410" level="INFO">Typing text 'robot.17923484911366ibl@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.205411" elapsed="0.077148"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.283558" elapsed="0.014998"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.299571" level="INFO">Typing text '3707715027' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.298556" elapsed="0.062756"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.282559" elapsed="0.078753"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.362316" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.361312" elapsed="0.061430"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.422742" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.422742" elapsed="0.058506"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:51.482278" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:51.482278" elapsed="0.854383"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:51.137684" elapsed="1.199975"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.337659" elapsed="0.004504"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.345168" level="INFO">Current location contains '/register'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.342163" elapsed="0.003005"/>
+</kw>
+<arg>/register</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.337659" elapsed="0.007509"/>
+</kw>
+<kw name="Verificar mensagem de erro de campo" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.field__error</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.346186" elapsed="0.010985"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.370166" level="INFO">Element 'css:.field__error' contains text 'não é um CPF válido'.</msg>
+<arg>css:.field__error</arg>
+<arg>${texto}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.358192" elapsed="0.011974"/>
+</kw>
+<arg>${TRECHO_CPF_INVALIDO}</arg>
+<doc>Confere que algum .field__error contém o texto.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.346186" elapsed="0.023980"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.501851" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct15-cpf-tamanho.png"&gt;&lt;img src="ct15-cpf-tamanho.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct15-cpf-${tipo}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.370166" elapsed="0.131685"/>
+</kw>
+<var name="${tipo}">tamanho</var>
+<status status="PASS" start="2026-10-18T15:34:50.639805" elapsed="1.862666"/>
+</iter>
+<var>${tipo}</var>
+<value>digito_errado</value>
+<value>repetido</value>
+<value>tamanho</value>
+<status status="PASS" start="2026-10-18T15:34:46.784781" elapsed="5.717690"/>
+</for>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.503057" level="INFO">Opening url 'http://127.0.0.1:8001/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.503057" elapsed="0.395709"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8001 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-18T15:34:52.503057" elapsed="0.395709"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-18T15:34:52.898766" level="INFO">${email} = robot.1792348492898x4or@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.898766" elapsed="0.000979"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-18T15:34:52.899745" level="INFO">${cpf} = 65886520546</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-18T15:34:52.899745" elapsed="0.000000"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.900728" elapsed="0.021008"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.922752" level="INFO">Typing text 'Usuario Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.922752" elapsed="0.043756"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:52.968509" level="INFO">Typing text 'robot.1792348492898x4or@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:52.967508" elapsed="0.076783"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.045291" elapsed="0.016204"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:53.061495" level="INFO">Typing text '65886520546' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.061495" elapsed="0.052982"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.044291" elapsed="0.071186"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:53.116477" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.115477" elapsed="0.059168"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:53.174645" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.174645" elapsed="0.071052"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:53.246713" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.245697" elapsed="0.052997"/>
+</kw>
+<arg>Usuario Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-18T15:34:52.899745" elapsed="0.398949"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.299688" elapsed="1.038158"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:54.344904" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-18T15:34:54.337846" elapsed="0.007058"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-18T15:34:53.299688" elapsed="1.045216"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-18T15:34:54.477672" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-18T15:34:54.346084" elapsed="0.131588"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-18T15:34:54.478682" elapsed="2.116353"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-18T15:34:54.344904" elapsed="2.250131"/>
+</kw>
+<doc>Registro com CPFs inválidos (dígito verificador errado, dígitos repetidos e 10 dígitos).
+Esperado: permanece em /register com erro sob o CPF. Em seguida, um CPF válido leva a /home.</doc>
+<tag>autenticacao</tag>
+<tag>CT15</tag>
+<status status="PASS" start="2026-10-18T15:34:45.153339" elapsed="11.441696"/>
+</test>
+<doc>Autenticação, usuários e gestão organizacional (CT09, CT10, CT12, CT14, CT15).
+Pré-requisito: aplicação rodando com o seed (admin@org.com.br, passageiro@org.com.br).</doc>
+<status status="PASS" start="2026-10-18T15:33:48.036083" elapsed="68.559939"/>
+</suite>
+<status status="PASS" start="2026-10-18T15:33:48.003084" elapsed="68.592938"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="5" fail="0" skip="0">autenticacao</stat>
+<stat pass="1" fail="0" skip="0">CT09</stat>
+<stat pass="1" fail="0" skip="0">CT10</stat>
+<stat pass="1" fail="0" skip="0">CT12</stat>
+<stat pass="1" fail="0" skip="0">CT14</stat>
+<stat pass="1" fail="0" skip="0">CT15</stat>
+</tag>
+<suite>
+<stat name="JoaoMosson" id="s1" pass="5" fail="0" skip="0">JoaoMosson</stat>
+<stat name="Autenticacao" id="s1-s1" pass="5" fail="0" skip="0">JoaoMosson.Autenticacao</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

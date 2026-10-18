@@ -37,7 +37,7 @@ Um caso só:
 .\tests\Robot\rodar.ps1 -Pessoa JoaoMosson -Caso CT09
 ```
 O script define o `PYTHONIOENCODING` sozinho e usa o `local.args` se existir.
-Os resultados (`log.html`, `report.html`, `output.xml` e prints) ficam em `tests/Robot/results/<Pessoa>/`, uma pasta por pessoa, ignorada pelo git.
+Os resultados (`log.html`, `report.html`, `output.xml` e prints) ficam em `tests/Robot/results/<Pessoa>/` e devem ser commitados na entrega (cada pessoa só a sua pasta).
 
 ## Convenções
 - Um arquivo `.robot` por pessoa, dentro da própria pasta.
