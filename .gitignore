@@ -26,4 +26,5 @@ larastan.neon
 _ide_helper.php
 antigoReadMe
 tests/Robot/local.args
-__pycache__/
+**/__pycache__/*
+results
