@@ -1,0 +1,2347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.14.7 on win32)" generated="2026-10-20T08:25:23.141957" rpa="false" schemaversion="5">
+<suite id="s1" name="Carteira" source="C:\cocar_VV\tests\Robot\JoaoPozzan\carteira.robot">
+<test id="s1-t1" name="CT01 - Depósito válido atualiza o saldo e gera transação" line="12">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-20T08:25:23.595413" elapsed="0.000045"/>
+</kw>
+<status status="NOT RUN" start="2026-10-20T08:25:23.594697" elapsed="0.000832"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:23.595945" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:23.595747" elapsed="2.072770"/>
+</kw>
+<status status="PASS" start="2026-10-20T08:25:23.595568" elapsed="2.073054"/>
+</branch>
+<status status="PASS" start="2026-10-20T08:25:23.594675" elapsed="2.073987"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-20T08:25:25.668791" elapsed="0.038581"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-20T08:25:25.707670" elapsed="0.001902"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8000, maximiza e define o timeout. Usa  se definido.</doc>
+<status status="PASS" start="2026-10-20T08:25:23.593986" elapsed="2.115768"/>
+</kw>
+<kw name="Criar um usuário com saldo de R$ 50,00" owner="carteira_resources">
+<kw name="Cart Registrar passageiro descartável" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:25.712591" level="INFO">Opening url 'http://127.0.0.1:8000/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:25.712431" elapsed="0.514848"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:25.712051" elapsed="0.515478"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-20T08:25:26.228335" level="INFO">${email} = robot.1792495526228kdna@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.227898" elapsed="0.000486"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-20T08:25:26.228780" level="INFO">${cpf} = 68555650500</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-20T08:25:26.228584" elapsed="0.000225"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.229361" elapsed="0.072775"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.302762" level="INFO">Typing text 'Passageiro Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.302332" elapsed="0.054068"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.357138" level="INFO">Typing text 'robot.1792495526228kdna@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.356700" elapsed="0.058008"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.415319" elapsed="0.013788"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.429722" level="INFO">Typing text '68555650500' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.429361" elapsed="0.044479"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.414935" elapsed="0.059060"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.474559" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.474211" elapsed="0.045109"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.519937" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.519595" elapsed="0.038428"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:26.558519" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.558257" elapsed="0.052249"/>
+</kw>
+<arg>Passageiro Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-20T08:25:26.229016" elapsed="0.381614"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.611176" elapsed="1.114979"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:27.730244" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:27.726417" elapsed="0.003970"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:26.610905" elapsed="1.119578"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:27.731196" level="INFO">${EMAIL_NOVO} = robot.1792495526228kdna@org.com.br</msg>
+<arg>${EMAIL_NOVO}</arg>
+<arg>${email}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:27.730628" elapsed="0.000606"/>
+</kw>
+<doc>Registra um usuário novo no domínio do seed (o registro já deixa logado em /home) e guarda o e-mail em ${EMAIL_NOVO}.</doc>
+<status status="PASS" start="2026-10-20T08:25:25.711314" elapsed="2.019985"/>
+</kw>
+<kw name="Cart Depositar pela carteira" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:27.731939" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:27.731852" elapsed="0.401871"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:27.731693" elapsed="0.402156"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:28.134018" elapsed="0.012816"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:28.147785" level="INFO">Typing text '50.00' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:28.147383" elapsed="0.044824"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:28.192717" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:28.192446" elapsed="0.049170"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Textfield Value Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:28.948474" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-20T08:25:28.948656" level="FAIL">Text field with locator 'id:valor-input' not found.</msg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies text field ``locator`` has exactly text ``expected``.</doc>
+<status status="FAIL" start="2026-10-20T08:25:28.242374" elapsed="0.744229">Text field with locator 'id:valor-input' not found.</status>
+</kw>
+<kw name="Textfield Value Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.204774" level="INFO">Content of text field 'id:valor-input' is ''.</msg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies text field ``locator`` has exactly text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.187240" elapsed="0.017616"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Textfield Value Should Be</arg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-20T08:25:28.241796" elapsed="0.963126"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira, digita o valor e envia; espera a página recarregar com o campo vazio.</doc>
+<status status="PASS" start="2026-10-20T08:25:27.731472" elapsed="1.473503"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.205650" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.205562" elapsed="0.320652"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:29.205380" elapsed="0.320975"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.526533" elapsed="0.013732"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.540789" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.540488" elapsed="0.012663"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:29.205133" elapsed="0.348110"/>
+</kw>
+<doc>Registra um passageiro descartável e deposita R$ 50,00 pela carteira (equivale a criarUsuarioComSaldo('50.00')).</doc>
+<status status="PASS" start="2026-10-20T08:25:25.710291" elapsed="3.842993"/>
+</kw>
+<kw name="Depositar R$ 25,50 pela carteira" owner="carteira_resources">
+<kw name="Cart Depositar pela carteira" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.554883" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.554738" elapsed="0.330088"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:29.554449" elapsed="0.330534"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.885186" elapsed="0.010218"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.895954" level="INFO">Typing text '25.50' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.895648" elapsed="0.046960"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:29.942944" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.942760" elapsed="0.685774"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Textfield Value Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.648332" level="INFO">Content of text field 'id:valor-input' is ''.</msg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies text field ``locator`` has exactly text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.629116" elapsed="0.019325"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Textfield Value Should Be</arg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.628720" elapsed="0.019822"/>
+</kw>
+<arg>${VALOR_DEPOSITO}</arg>
+<doc>Abre /carteira, digita o valor e envia; espera a página recarregar com o campo vazio.</doc>
+<status status="PASS" start="2026-10-20T08:25:29.554112" elapsed="1.094527"/>
+</kw>
+<doc>Abre /carteira, digita 25.50 no campo de valor e envia (equivale ao PATCH em carteira.depositar).</doc>
+<status status="PASS" start="2026-10-20T08:25:29.553732" elapsed="1.094984"/>
+</kw>
+<kw name="Verificar que o depósito voltou para a carteira sem erros" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.649793" elapsed="0.003429"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.656466" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.653482" elapsed="0.003076"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.649451" elapsed="0.007208"/>
+</kw>
+<kw name="Cart Página não deve ser de erro" owner="carteira_resources">
+<kw name="Page Should Contain Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.661642" level="INFO">Current page contains element 'css:.wallet__balance'.</msg>
+<arg>css:.wallet__balance</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.657190" elapsed="0.004556"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.676204" level="INFO">Current page does not contain text 'Valor inválido'.</msg>
+<arg>Valor inválido</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.661929" elapsed="0.014373"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.688150" level="INFO">Current page does not contain text 'Server Error'.</msg>
+<arg>Server Error</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.676501" elapsed="0.011799"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.700165" level="INFO">Current page does not contain text 'Whoops'.</msg>
+<arg>Whoops</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.688485" elapsed="0.011746"/>
+</kw>
+<doc>Garante que a página atual é a carteira e não uma tela de erro.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.656875" elapsed="0.043427"/>
+</kw>
+<doc>Termina em /carteira (redirect back) sem tela de erro. A view da carteira não exibe erros de validação,
+então a ausência de erro é confirmada pelo saldo atualizado no passo seguinte.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.649083" elapsed="0.051260"/>
+</kw>
+<kw name="Verificar que o saldo da carteira foi atualizado para R$ 75,50" owner="carteira_resources">
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:30.701299" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.701213" elapsed="0.312407"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:30.701057" elapsed="0.312691"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.013921" elapsed="0.010822"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.025257" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 75.50'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.024956" elapsed="0.012140"/>
+</kw>
+<arg>${SALDO_ESPERADO}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:30.700871" elapsed="0.336363"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.105991" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct01-saldo-atualizado.png"&gt;&lt;img src="ct01-saldo-atualizado.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct01-saldo-atualizado.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.037438" elapsed="0.068689"/>
+</kw>
+<doc>O saldo exibido em /carteira passa de R$ 50.00 para R$ 75.50.</doc>
+<status status="PASS" start="2026-10-20T08:25:30.700647" elapsed="0.405616"/>
+</kw>
+<kw name="Verificar que a transação de depósito foi gerada com sucesso" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.107254" level="INFO">Opening url 'http://127.0.0.1:8000/atividade'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.107156" elapsed="0.339069"/>
+</kw>
+<arg>/atividade</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:31.106989" elapsed="0.339362"/>
+</kw>
+<kw name="Cart Histórico deve conter transação" owner="carteira_resources">
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2026-10-20T08:25:31.447488" level="INFO">${cartao} = xpath://details[contains(@class,'tx-card')][.//span[contains(@class,'tx-card__title') and normalize-space()='Depósito']][.//span[contains(@class,'tx-card__value') and contains(normalize-space(),'R$ 25...</msg>
+<var>${cartao}</var>
+<arg>SEPARATOR=</arg>
+<arg>xpath://details[contains(@class,'tx-card')]</arg>
+<arg>[.//span[contains(@class,'tx-card__title') and normalize-space()='${titulo}']]</arg>
+<arg>[.//span[contains(@class,'tx-card__value') and contains(normalize-space(),'R$ ${valor}')]]</arg>
+<arg>[.//div[contains(@class,'tx-card__meta')]/span[contains(@class,'badge') and normalize-space()='${status}']]</arg>
+<doc>Concatenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.446955" elapsed="0.000581"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>${cartao}</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.447718" elapsed="0.008710"/>
+</kw>
+<arg>Depósito</arg>
+<arg>${VALOR_DEPOSITO}</arg>
+<arg>${STATUS_SUCESSO}</arg>
+<doc>Espera, na página /atividade, um cartão com o título, o valor (R$) e o status informados.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.446556" elapsed="0.010011"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.468706" level="INFO">Element 'css:.wallet-summary__value' contains text 'R$ 75.50'.</msg>
+<arg>css:.wallet-summary__value</arg>
+<arg>R$ ${SALDO_ESPERADO}</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.456756" elapsed="0.012058"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.541625" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct01-historico-deposito.png"&gt;&lt;img src="ct01-historico-deposito.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct01-historico-deposito.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.469062" elapsed="0.072717"/>
+</kw>
+<doc>Sem acesso ao banco: em /atividade aparece um "Depósito" de R$ 25.50 com status "sucesso"
+(depósito não tem pedido nem trajeto) e o saldo atual do histórico é R$ 75.50.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.106770" elapsed="0.435148"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:31.606015" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.542973" elapsed="0.063131"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.606236" elapsed="2.134323"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-20T08:25:31.542436" elapsed="2.198221"/>
+</kw>
+<doc>Usuário com R$ 50,00 deposita R$ 25,50 pela tela da carteira.
+Esperado: volta para /carteira sem erro, saldo de R$ 75.50 e um "Depósito" de R$ 25.50
+com status "sucesso" no histórico (/atividade).</doc>
+<tag>carteira</tag>
+<tag>CT01</tag>
+<status status="PASS" start="2026-10-20T08:25:23.592987" elapsed="10.147801"/>
+</test>
+<test id="s1-t2" name="CT02 - Depósito com valor inválido é rejeitado" line="23">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-20T08:25:33.742992" elapsed="0.000034"/>
+</kw>
+<status status="NOT RUN" start="2026-10-20T08:25:33.742562" elapsed="0.000519"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:33.743568" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:33.743360" elapsed="0.836724"/>
+</kw>
+<status status="PASS" start="2026-10-20T08:25:33.743125" elapsed="0.837073"/>
+</branch>
+<status status="PASS" start="2026-10-20T08:25:33.742536" elapsed="0.837725"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.580440" elapsed="0.034558"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.615249" elapsed="0.001014"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8000, maximiza e define o timeout. Usa  se definido.</doc>
+<status status="PASS" start="2026-10-20T08:25:33.742337" elapsed="0.874043"/>
+</kw>
+<kw name="Criar um usuário com saldo de R$ 50,00" owner="carteira_resources">
+<kw name="Cart Registrar passageiro descartável" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:34.618269" level="INFO">Opening url 'http://127.0.0.1:8000/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.618091" elapsed="0.317114"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:34.617830" elapsed="0.317577"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-20T08:25:34.936073" level="INFO">${email} = robot.1792495534935hevq@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.935654" elapsed="0.000476"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-20T08:25:34.936507" level="INFO">${cpf} = 38626006292</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-20T08:25:34.936319" elapsed="0.000230"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.937360" elapsed="0.014452"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:34.952307" level="INFO">Typing text 'Passageiro Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.952026" elapsed="0.040150"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:34.992741" level="INFO">Typing text 'robot.1792495534935hevq@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.992425" elapsed="0.059084"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.052065" elapsed="0.010521"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:35.063118" level="INFO">Typing text '38626006292' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.062813" elapsed="0.047646"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.051748" elapsed="0.058808"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:35.110937" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.110700" elapsed="0.045322"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:35.156667" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.156295" elapsed="0.058506"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:35.215123" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:35.214954" elapsed="0.891814"/>
+</kw>
+<arg>Passageiro Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-20T08:25:34.936900" elapsed="1.170000"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.107486" elapsed="0.005043"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:36.115425" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.112679" elapsed="0.002888"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.107130" elapsed="0.008554"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:36.116646" level="INFO">${EMAIL_NOVO} = robot.1792495534935hevq@org.com.br</msg>
+<arg>${EMAIL_NOVO}</arg>
+<arg>${email}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.115890" elapsed="0.000820"/>
+</kw>
+<doc>Registra um usuário novo no domínio do seed (o registro já deixa logado em /home) e guarda o e-mail em ${EMAIL_NOVO}.</doc>
+<status status="PASS" start="2026-10-20T08:25:34.617519" elapsed="1.499284"/>
+</kw>
+<kw name="Cart Depositar pela carteira" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:36.117782" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.117650" elapsed="0.322871"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:36.117389" elapsed="0.323262"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.440823" elapsed="0.010558"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:36.451903" level="INFO">Typing text '50.00' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.451611" elapsed="0.038309"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:36.490357" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.490114" elapsed="0.041876"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Textfield Value Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:37.238105" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-20T08:25:37.238291" level="FAIL">Text field with locator 'id:valor-input' not found.</msg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies text field ``locator`` has exactly text ``expected``.</doc>
+<status status="FAIL" start="2026-10-20T08:25:36.532859" elapsed="0.707194">Text field with locator 'id:valor-input' not found.</status>
+</kw>
+<kw name="Textfield Value Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:37.462010" level="INFO">Content of text field 'id:valor-input' is ''.</msg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies text field ``locator`` has exactly text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.441036" elapsed="0.021053"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>Textfield Value Should Be</arg>
+<arg>id:valor-input</arg>
+<arg>${EMPTY}</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.532251" elapsed="0.929900"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira, digita o valor e envia; espera a página recarregar com o campo vazio.</doc>
+<status status="PASS" start="2026-10-20T08:25:36.117022" elapsed="1.345181"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:37.465310" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.465111" elapsed="0.274740"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:37.462580" elapsed="0.277418"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.740161" elapsed="0.010326"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:37.750844" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.750636" elapsed="0.011563"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:37.462343" elapsed="0.299988"/>
+</kw>
+<doc>Registra um passageiro descartável e deposita R$ 50,00 pela carteira (equivale a criarUsuarioComSaldo('50.00')).</doc>
+<status status="PASS" start="2026-10-20T08:25:34.616847" elapsed="3.145564"/>
+</kw>
+<kw name="Depositar sem informar o valor" owner="carteira_resources">
+<kw name="Cart Enviar depósito inválido" owner="carteira_resources">
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:37.763568" level="INFO">${TIPO_VALOR} = ausente</msg>
+<arg>${TIPO_VALOR}</arg>
+<arg>${tipo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.763144" elapsed="0.000457"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:37.763956" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.763878" elapsed="0.367364"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:37.763716" elapsed="0.367664"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.131553" elapsed="0.009209"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:38.141298" level="INFO">Typing text '' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.140985" elapsed="0.047240"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:38.188860" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.188509" elapsed="0.045396"/>
+</kw>
+<arg>ausente</arg>
+<arg>${EMPTY}</arg>
+<doc>Recarrega /carteira, digita o valor inválido do tipo informado e clica em "Inserir Saldo" sem esperar sucesso.</doc>
+<status status="PASS" start="2026-10-20T08:25:37.762931" elapsed="0.471062"/>
+</kw>
+<doc>Envia o depósito com o campo valor vazio (equivale ao payload sem a chave valor).</doc>
+<status status="PASS" start="2026-10-20T08:25:37.762709" elapsed="0.471365"/>
+</kw>
+<kw name="Verificar que o depósito foi rejeitado e o saldo continua R$ 50,00" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.235088" elapsed="0.564348"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:38.802592" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.799593" elapsed="0.003075"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.234849" elapsed="0.567888"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:38.803400" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.803309" elapsed="0.326044"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:38.803108" elapsed="0.326372"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.129657" elapsed="0.010427"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.140434" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.140230" elapsed="0.011360"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:38.802874" elapsed="0.348844"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.210397" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-deposito-ausente.png"&gt;&lt;img src="ct02-deposito-ausente.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-deposito-${TIPO_VALOR}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.151922" elapsed="0.058558"/>
+</kw>
+<doc>Permanece em /carteira e o saldo não muda. Negativo, zero e três casas decimais são barrados pelo navegador
+(input type=number com min=0.01 e step=0.01); o campo vazio chega ao servidor e é recusado pela regra required.
+A mensagem "Valor inválido, verifique e tente novamente" não é exibida na view, então não é verificada.</doc>
+<status status="PASS" start="2026-10-20T08:25:38.234440" elapsed="0.976113"/>
+</kw>
+<kw name="Depositar valor negativo" owner="carteira_resources">
+<kw name="Cart Enviar depósito inválido" owner="carteira_resources">
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:39.212001" level="INFO">${TIPO_VALOR} = negativo</msg>
+<arg>${TIPO_VALOR}</arg>
+<arg>${tipo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.211597" elapsed="0.000465"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.212722" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.212567" elapsed="0.263807"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:39.212253" elapsed="0.264253"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.476677" elapsed="0.009961"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.487157" level="INFO">Typing text '-10.00' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.486871" elapsed="0.039476"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.526873" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.526577" elapsed="0.043109"/>
+</kw>
+<arg>negativo</arg>
+<arg>-10.00</arg>
+<doc>Recarrega /carteira, digita o valor inválido do tipo informado e clica em "Inserir Saldo" sem esperar sucesso.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.211191" elapsed="0.358636"/>
+</kw>
+<doc>Envia o depósito com -10.00.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.210790" elapsed="0.359131"/>
+</kw>
+<kw name="Verificar que o depósito foi rejeitado e o saldo continua R$ 50,00" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.571011" elapsed="0.002920"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.577590" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.574121" elapsed="0.003572"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.570666" elapsed="0.007131"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.578757" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.578633" elapsed="0.369268"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:39.578367" elapsed="0.369685"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.948265" elapsed="0.008700"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:39.957546" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.957124" elapsed="0.009579"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:39.577998" elapsed="0.388852"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.027366" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-deposito-negativo.png"&gt;&lt;img src="ct02-deposito-negativo.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-deposito-${TIPO_VALOR}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.967123" elapsed="0.060374"/>
+</kw>
+<doc>Permanece em /carteira e o saldo não muda. Negativo, zero e três casas decimais são barrados pelo navegador
+(input type=number com min=0.01 e step=0.01); o campo vazio chega ao servidor e é recusado pela regra required.
+A mensagem "Valor inválido, verifique e tente novamente" não é exibida na view, então não é verificada.</doc>
+<status status="PASS" start="2026-10-20T08:25:39.570301" elapsed="0.457315"/>
+</kw>
+<kw name="Depositar valor com mais de duas casas decimais" owner="carteira_resources">
+<kw name="Cart Enviar depósito inválido" owner="carteira_resources">
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:40.030375" level="INFO">${TIPO_VALOR} = tres_casas</msg>
+<arg>${TIPO_VALOR}</arg>
+<arg>${tipo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.029200" elapsed="0.001264"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.032341" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.031610" elapsed="0.324132"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:40.030768" elapsed="0.325146"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.356107" elapsed="0.009406"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.366125" level="INFO">Typing text '10.555' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.365771" elapsed="0.043285"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.409513" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.409296" elapsed="0.046436"/>
+</kw>
+<arg>tres_casas</arg>
+<arg>10.555</arg>
+<doc>Recarrega /carteira, digita o valor inválido do tipo informado e clica em "Inserir Saldo" sem esperar sucesso.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.028515" elapsed="0.427308"/>
+</kw>
+<doc>Envia o depósito com 10.555.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.027990" elapsed="0.427877"/>
+</kw>
+<kw name="Verificar que o depósito foi rejeitado e o saldo continua R$ 50,00" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.456668" elapsed="0.004737"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.470178" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.461604" elapsed="0.008717"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.456492" elapsed="0.013968"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.472401" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.472203" elapsed="0.394529"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:40.471786" elapsed="0.395044"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.866946" elapsed="0.011697"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.879258" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.878876" elapsed="0.010439"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:40.470838" elapsed="0.418567"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.965740" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-deposito-tres_casas.png"&gt;&lt;img src="ct02-deposito-tres_casas.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-deposito-${TIPO_VALOR}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.889534" elapsed="0.076315"/>
+</kw>
+<doc>Permanece em /carteira e o saldo não muda. Negativo, zero e três casas decimais são barrados pelo navegador
+(input type=number com min=0.01 e step=0.01); o campo vazio chega ao servidor e é recusado pela regra required.
+A mensagem "Valor inválido, verifique e tente novamente" não é exibida na view, então não é verificada.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.456260" elapsed="0.509686"/>
+</kw>
+<kw name="Depositar valor não numérico" owner="carteira_resources">
+<kw name="Cart Enviar depósito inválido" owner="carteira_resources">
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:40.967596" level="INFO">${TIPO_VALOR} = nao_numerico</msg>
+<arg>${TIPO_VALOR}</arg>
+<arg>${tipo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.967165" elapsed="0.000494"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:40.968140" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.968037" elapsed="0.493248"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:40.967804" elapsed="0.493633"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:41.461618" elapsed="0.010241"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:41.472414" level="INFO">Typing text 'abc' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:41.472118" elapsed="0.041917"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:41.514558" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:41.514275" elapsed="0.985040"/>
+</kw>
+<arg>nao_numerico</arg>
+<arg>abc</arg>
+<doc>Recarrega /carteira, digita o valor inválido do tipo informado e clica em "Inserir Saldo" sem esperar sucesso.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.966824" elapsed="1.532594"/>
+</kw>
+<doc>Digita "abc" no campo valor. O input é type=number, então o navegador descarta as letras e o campo segue vazio.</doc>
+<status status="PASS" start="2026-10-20T08:25:40.966399" elapsed="1.533068"/>
+</kw>
+<kw name="Verificar que o depósito foi rejeitado e o saldo continua R$ 50,00" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.501132" elapsed="0.004308"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:42.511620" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.505589" elapsed="0.006163"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.500689" elapsed="0.011193"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:42.513066" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.512901" elapsed="0.280851"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:42.512563" elapsed="0.281313"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.794036" elapsed="0.009271"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:42.803696" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.803462" elapsed="0.010904"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:42.512110" elapsed="0.302347"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:42.876682" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-deposito-nao_numerico.png"&gt;&lt;img src="ct02-deposito-nao_numerico.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-deposito-${TIPO_VALOR}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.814600" elapsed="0.062172"/>
+</kw>
+<doc>Permanece em /carteira e o saldo não muda. Negativo, zero e três casas decimais são barrados pelo navegador
+(input type=number com min=0.01 e step=0.01); o campo vazio chega ao servidor e é recusado pela regra required.
+A mensagem "Valor inválido, verifique e tente novamente" não é exibida na view, então não é verificada.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.500220" elapsed="0.376627"/>
+</kw>
+<kw name="Depositar valor zero" owner="carteira_resources">
+<kw name="Cart Enviar depósito inválido" owner="carteira_resources">
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:42.878119" level="INFO">${TIPO_VALOR} = zero</msg>
+<arg>${TIPO_VALOR}</arg>
+<arg>${tipo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.877852" elapsed="0.000302"/>
+</kw>
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:42.878509" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.878426" elapsed="0.282470"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:42.878266" elapsed="0.282723"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:valor-input</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.161113" elapsed="0.011343"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.172804" level="INFO">Typing text '0.00' into text field 'id:valor-input'.</msg>
+<arg>id:valor-input</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.172609" elapsed="0.045032"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.218073" level="INFO">Clicking button 'css:form[action$="/carteira"] button[type=submit]'.</msg>
+<arg>css:form[action$="/carteira"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.217864" elapsed="0.047195"/>
+</kw>
+<arg>zero</arg>
+<arg>0.00</arg>
+<doc>Recarrega /carteira, digita o valor inválido do tipo informado e clica em "Inserir Saldo" sem esperar sucesso.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.877565" elapsed="0.387653"/>
+</kw>
+<doc>Envia o depósito com 0.00.</doc>
+<status status="PASS" start="2026-10-20T08:25:42.877301" elapsed="0.388005"/>
+</kw>
+<kw name="Verificar que o depósito foi rejeitado e o saldo continua R$ 50,00" owner="carteira_resources">
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.266269" elapsed="0.003600"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.272851" level="INFO">Current location contains '/carteira'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.270016" elapsed="0.002913"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.266061" elapsed="0.007039"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.274087" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.273980" elapsed="0.384241"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:43.273694" elapsed="0.384662"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.658484" elapsed="0.010974"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.669984" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 50.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.669674" elapsed="0.009818"/>
+</kw>
+<arg>${SALDO_INICIAL}</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:43.273317" elapsed="0.406327"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.743900" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-deposito-zero.png"&gt;&lt;img src="ct02-deposito-zero.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-deposito-${TIPO_VALOR}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.679858" elapsed="0.064172"/>
+</kw>
+<doc>Permanece em /carteira e o saldo não muda. Negativo, zero e três casas decimais são barrados pelo navegador
+(input type=number com min=0.01 e step=0.01); o campo vazio chega ao servidor e é recusado pela regra required.
+A mensagem "Valor inválido, verifique e tente novamente" não é exibida na view, então não é verificada.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.265811" elapsed="0.478361"/>
+</kw>
+<kw name="Verificar que nenhuma nova transação foi gerada" owner="carteira_resources">
+<kw name="Cart Contar transações do histórico" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:43.745863" level="INFO">Opening url 'http://127.0.0.1:8000/atividade'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.745711" elapsed="0.370194"/>
+</kw>
+<arg>/atividade</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:43.745372" elapsed="0.370677"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet-panel</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.116239" elapsed="0.013227"/>
+</kw>
+<kw name="Get Element Count" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:44.137416" level="INFO">${quantidade} = 1</msg>
+<var>${quantidade}</var>
+<arg>css:.tx-card</arg>
+<doc>Returns the number of elements matching ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.129687" elapsed="0.007769"/>
+</kw>
+<return>
+<value>${quantidade}</value>
+<status status="PASS" start="2026-10-20T08:25:44.137550" elapsed="0.000070"/>
+</return>
+<msg time="2026-10-20T08:25:44.137772" level="INFO">${quantidade} = 1</msg>
+<var>${quantidade}</var>
+<doc>Abre /atividade e devolve a quantidade de cartões de transação do extrato.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.745040" elapsed="0.392761"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-20T08:25:44.138262" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${quantidade}</arg>
+<arg>1</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.137954" elapsed="0.000377"/>
+</kw>
+<kw name="Cart Histórico deve conter transação" owner="carteira_resources">
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2026-10-20T08:25:44.139231" level="INFO">${cartao} = xpath://details[contains(@class,'tx-card')][.//span[contains(@class,'tx-card__title') and normalize-space()='Depósito']][.//span[contains(@class,'tx-card__value') and contains(normalize-space(),'R$ 50...</msg>
+<var>${cartao}</var>
+<arg>SEPARATOR=</arg>
+<arg>xpath://details[contains(@class,'tx-card')]</arg>
+<arg>[.//span[contains(@class,'tx-card__title') and normalize-space()='${titulo}']]</arg>
+<arg>[.//span[contains(@class,'tx-card__value') and contains(normalize-space(),'R$ ${valor}')]]</arg>
+<arg>[.//div[contains(@class,'tx-card__meta')]/span[contains(@class,'badge') and normalize-space()='${status}']]</arg>
+<doc>Concatenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.138847" elapsed="0.000417"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>${cartao}</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.139407" elapsed="0.007902"/>
+</kw>
+<arg>Depósito</arg>
+<arg>${SALDO_INICIAL}</arg>
+<arg>${STATUS_SUCESSO}</arg>
+<doc>Espera, na página /atividade, um cartão com o título, o valor (R$) e o status informados.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.138507" elapsed="0.008936"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:44.234027" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="ct02-historico-sem-novos-depositos.png"&gt;&lt;img src="ct02-historico-sem-novos-depositos.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>ct02-historico-sem-novos-depositos.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.147665" elapsed="0.086451"/>
+</kw>
+<doc>Sem acesso ao banco: em /atividade existe somente o depósito inicial de R$ 50.00.</doc>
+<status status="PASS" start="2026-10-20T08:25:43.744638" elapsed="0.489555"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:44.298785" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.234787" elapsed="0.064140"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.299118" elapsed="2.138359"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-20T08:25:44.234537" elapsed="2.203031"/>
+</kw>
+<doc>Usuário com R$ 50,00 tenta depositar sem valor, valor negativo, com três casas decimais,
+não numérico e zero.
+Esperado: permanece em /carteira, o saldo continua R$ 50.00 e nenhuma transação nova é gerada
+(a view da carteira não exibe a mensagem de erro do campo valor, então ela não é verificada).</doc>
+<tag>carteira</tag>
+<tag>CT02</tag>
+<status status="PASS" start="2026-10-20T08:25:33.741389" elapsed="12.696381"/>
+</test>
+<test id="s1-t3" name="CT03 - Retenção com saldo exatamente igual ao valor" line="42">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-20T08:25:46.439714" elapsed="0.000023"/>
+</kw>
+<status status="NOT RUN" start="2026-10-20T08:25:46.439418" elapsed="0.000370"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:46.440096" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:46.439961" elapsed="0.806708"/>
+</kw>
+<status status="PASS" start="2026-10-20T08:25:46.439816" elapsed="0.806951"/>
+</branch>
+<status status="PASS" start="2026-10-20T08:25:46.439395" elapsed="0.807417"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.246958" elapsed="0.033947"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.281094" elapsed="0.000964"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8000, maximiza e define o timeout. Usa  se definido.</doc>
+<status status="PASS" start="2026-10-20T08:25:46.439148" elapsed="0.843019"/>
+</kw>
+<kw name="Criar um passageiro sem saldo" owner="carteira_resources">
+<kw name="Cart Registrar passageiro descartável" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.283695" level="INFO">Opening url 'http://127.0.0.1:8000/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.283530" elapsed="0.329186"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:47.283282" elapsed="0.329584"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-20T08:25:47.613294" level="INFO">${email} = robot.1792495547613tayf@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.613042" elapsed="0.000284"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-20T08:25:47.613603" level="INFO">${cpf} = 39610026907</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-20T08:25:47.613462" elapsed="0.000166"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.614200" elapsed="0.013147"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.627889" level="INFO">Typing text 'Passageiro Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.627562" elapsed="0.042277"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.670444" level="INFO">Typing text 'robot.1792495547613tayf@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.670101" elapsed="0.055900"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.726824" elapsed="0.010795"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.738132" level="INFO">Typing text '39610026907' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.737829" elapsed="0.045027"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.726369" elapsed="0.056611"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.783423" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.783137" elapsed="0.047058"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.830752" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.830437" elapsed="0.044536"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:47.875422" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.875177" elapsed="0.873351"/>
+</kw>
+<arg>Passageiro Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-20T08:25:47.613834" elapsed="1.134846"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:48.749256" elapsed="0.003642"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:48.756596" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:48.753107" elapsed="0.003570"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:25:48.748910" elapsed="0.007842"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:25:48.757368" level="INFO">${EMAIL_NOVO} = robot.1792495547613tayf@org.com.br</msg>
+<arg>${EMAIL_NOVO}</arg>
+<arg>${email}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:25:48.756882" elapsed="0.000587"/>
+</kw>
+<doc>Registra um usuário novo no domínio do seed (o registro já deixa logado em /home) e guarda o e-mail em ${EMAIL_NOVO}.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.283063" elapsed="1.474501"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:48.758655" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:48.758489" elapsed="0.297444"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:48.758000" elapsed="0.298024"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.056162" elapsed="0.011932"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:49.068454" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 0.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.068249" elapsed="0.009476"/>
+</kw>
+<arg>0.00</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:25:48.757722" elapsed="0.320160"/>
+</kw>
+<doc>Registra um passageiro descartável; a carteira é criada no registro com saldo R$ 0.00.</doc>
+<status status="PASS" start="2026-10-20T08:25:47.282547" elapsed="1.795416"/>
+</kw>
+<kw name="Consultar o valor máximo estimado da corrida" owner="carteira_resources">
+<kw name="Cart Preencher origem e destino" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:49.079090" level="INFO">Opening url 'http://127.0.0.1:8000/home'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.079008" elapsed="0.359602"/>
+</kw>
+<arg>/home</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:25:49.078844" elapsed="0.359925"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.439426" elapsed="0.010172"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:49.450202" level="INFO">Typing text 'Rua XV de Novembro Curitiba' into text field 'css:#origem-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.449843" elapsed="0.048620"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.498628" elapsed="1.454418"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:50.953516" level="INFO">Clicking element 'css:#origem-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:50.953259" elapsed="0.027771"/>
+</kw>
+<arg>origem</arg>
+<arg>${ENDERECO_ORIGEM}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:25:49.439027" elapsed="1.542092"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:50.981509" elapsed="0.008027"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:50.989955" level="INFO">Typing text 'Jardim Botânico Curitiba' into text field 'css:#destino-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:50.989707" elapsed="0.057075"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:25:51.047025" elapsed="0.838650"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:25:51.886042" level="INFO">Clicking element 'css:#destino-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:25:51.885839" elapsed="0.029776"/>
+</kw>
+<arg>destino</arg>
+<arg>${ENDERECO_DESTINO}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:25:50.981267" elapsed="0.934437"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:02.128502" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-20T08:26:02.128624" level="FAIL">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</msg>
+<arg>css:#estimate-container .cost-estimate</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-10-20T08:25:51.915822" elapsed="10.226594">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<doc>Abre a /home do passageiro, escolhe origem e destino e espera a estimativa de custo carregar.</doc>
+<status status="FAIL" start="2026-10-20T08:25:49.078678" elapsed="13.064072">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<kw name="Cart Obter valor máximo da estimativa" owner="carteira_resources">
+<var>${maximo}</var>
+<doc>Lê a faixa "R$ min - R$ max" da estimativa e devolve só o máximo (ex.: 12.34).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.143147" elapsed="0.000069"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${VALOR_MAXIMO}</arg>
+<arg>${maximo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.143485" elapsed="0.000061"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Valor máximo estimado: R$ ${VALOR_MAXIMO}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.143870" elapsed="0.000053"/>
+</kw>
+<doc>Preenche origem e destino na /home e guarda o valor máximo da estimativa em ${VALOR_MAXIMO}
+(é esse valor que o PedidoCaronaService retém ao confirmar o pedido).</doc>
+<status status="FAIL" start="2026-10-20T08:25:49.078469" elapsed="13.065618">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<kw name="Depositar exatamente o valor máximo estimado" owner="carteira_resources">
+<doc>Deposita o valor máximo estimado, deixando o saldo exatamente igual ao valor da retenção (CT03, passo 1).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.144637" elapsed="0.000059"/>
+</kw>
+<kw name="Solicitar a carona no mesmo trajeto" owner="carteira_resources">
+<doc>Preenche a mesma origem e destino e clica em "Confirmar Pedido" (equivale a chamar reterValor).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.145086" elapsed="0.000050"/>
+</kw>
+<kw name="Verificar que o saldo da carteira foi zerado" owner="carteira_resources">
+<doc>Com o saldo igual ao valor retido, a carteira fica em R$ 0.00.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.145458" elapsed="0.000038"/>
+</kw>
+<kw name="Verificar que a retenção foi registrada com sucesso" owner="carteira_resources">
+<doc>Sem acesso ao banco: em /atividade aparece a "Reserva de Saldo" do valor máximo com status "sucesso"
+e o saldo atual do histórico é R$ 0.00.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.145773" elapsed="0.000086"/>
+</kw>
+<kw name="Cancelar o pedido criado para não interferir nos outros testes" owner="carteira_resources">
+<doc>Cancela o pedido pelo painel do passageiro para ele não aparecer como sugestão nos trajetos de outros testes.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:02.146195" elapsed="0.000042"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:02.204973" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:26:02.147062" elapsed="0.058038"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-20T08:26:02.205310" elapsed="2.192657"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-20T08:26:02.146631" elapsed="2.251503"/>
+</kw>
+<doc>Passageiro deposita exatamente o valor máximo estimado da corrida e confirma o pedido.
+Esperado: pedido criado (/pedido-carona/{id}), saldo zerado (R$ 0.00) e "Reserva de Saldo"
+do valor máximo com status "sucesso" em /atividade.
+Ao final o pedido é cancelado para não aparecer como sugestão nos testes de outras pessoas.</doc>
+<tag>carteira</tag>
+<tag>CT03</tag>
+<tag>retencao</tag>
+<status status="FAIL" start="2026-10-20T08:25:46.438397" elapsed="17.971354">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</test>
+<test id="s1-t4" name="CT04 - Retenção com saldo insuficiente" line="56">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:04.415258" elapsed="0.000021"/>
+</kw>
+<status status="NOT RUN" start="2026-10-20T08:26:04.414997" elapsed="0.000320"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:04.415619" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:04.415485" elapsed="0.912125"/>
+</kw>
+<status status="PASS" start="2026-10-20T08:26:04.415343" elapsed="0.912367"/>
+</branch>
+<status status="PASS" start="2026-10-20T08:26:04.414980" elapsed="0.912777"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.327906" elapsed="0.021469"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.349564" elapsed="0.000921"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8000, maximiza e define o timeout. Usa  se definido.</doc>
+<status status="PASS" start="2026-10-20T08:26:04.414839" elapsed="0.935747"/>
+</kw>
+<kw name="Criar um passageiro sem saldo" owner="carteira_resources">
+<kw name="Cart Registrar passageiro descartável" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.352750" level="INFO">Opening url 'http://127.0.0.1:8000/register'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.352653" elapsed="0.330990"/>
+</kw>
+<arg>/register</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:05.352471" elapsed="0.331357"/>
+</kw>
+<kw name="Gerar Email Unico" owner="GeradorDados">
+<msg time="2026-10-20T08:26:05.684541" level="INFO">${email} = robot.1792495565684axgb@org.com.br</msg>
+<var>${email}</var>
+<arg>${DOMINIO_SEED}</arg>
+<doc>Devolve robot.&lt;timestamp&gt;&lt;sufixo&gt;@dominio em minúsculas.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.684093" elapsed="0.000534"/>
+</kw>
+<kw name="Gerar Cpf Valido" owner="GeradorDados">
+<msg time="2026-10-20T08:26:05.685083" level="INFO">${cpf} = 42218729261</msg>
+<var>${cpf}</var>
+<doc>Devolve um CPF válido (11 dígitos, sem pontuação).</doc>
+<status status="PASS" start="2026-10-20T08:26:05.684847" elapsed="0.000274"/>
+</kw>
+<kw name="Preencher formulário de registro" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=name]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.685817" elapsed="0.013384"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.699716" level="INFO">Typing text 'Passageiro Robot' into text field 'css:input[name=name]'.</msg>
+<arg>css:input[name=name]</arg>
+<arg>${nome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.699438" elapsed="0.040429"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.740393" level="INFO">Typing text 'robot.1792495565684axgb@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.740085" elapsed="0.054248"/>
+</kw>
+<kw name="Preencher campo mascarado" owner="comum">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:${id_visivel}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.795125" elapsed="0.011512"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.807021" level="INFO">Typing text '42218729261' into text field 'id:cpf_display'.</msg>
+<arg>id:${id_visivel}</arg>
+<arg>${valor}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.806800" elapsed="0.048212"/>
+</kw>
+<arg>cpf_display</arg>
+<arg>${cpf}</arg>
+<doc>Digita no input VISÍVEL de um campo mascarado (ex.: cpf_display). Nunca no hidden nem via JS.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.794657" elapsed="0.060511"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.855624" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.855376" elapsed="0.048528"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.904501" level="INFO">Typing text 'SenhaForte123!' into text field 'css:input[name=password_confirmation]'.</msg>
+<arg>css:input[name=password_confirmation]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.904175" elapsed="0.042017"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:05.946607" level="INFO">Clicking button 'id:btn-enviar'.</msg>
+<arg>id:btn-enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.946386" elapsed="0.951301"/>
+</kw>
+<arg>Passageiro Robot</arg>
+<arg>${email}</arg>
+<arg>${cpf}</arg>
+<arg>${SENHA_NOVA}</arg>
+<doc>Preenche e envia /register (usa name:email porque o id está duplicado no label).</doc>
+<status status="PASS" start="2026-10-20T08:26:05.685374" elapsed="1.212443"/>
+</kw>
+<kw name="Verificar URL termina com" owner="comum">
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>${caminho}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:26:06.898407" elapsed="0.003595"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:06.905366" level="INFO">Current location contains '/home'.</msg>
+<arg>${caminho}</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:26:06.902164" elapsed="0.003305"/>
+</kw>
+<arg>/home</arg>
+<doc>Espera a URL conter o caminho informado e confirma.</doc>
+<status status="PASS" start="2026-10-20T08:26:06.898071" elapsed="0.007498"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:26:06.906326" level="INFO">${EMAIL_NOVO} = robot.1792495565684axgb@org.com.br</msg>
+<arg>${EMAIL_NOVO}</arg>
+<arg>${email}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:26:06.905741" elapsed="0.000633"/>
+</kw>
+<doc>Registra um usuário novo no domínio do seed (o registro já deixa logado em /home) e guarda o e-mail em ${EMAIL_NOVO}.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.352169" elapsed="1.554265"/>
+</kw>
+<kw name="Cart Saldo da carteira deve ser" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:06.907038" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:06.906955" elapsed="0.306134"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:06.906762" elapsed="0.306450"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.213366" elapsed="0.009892"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:07.223815" level="INFO">Verifying element 'css:.wallet__balance' contains exact text 'R$ 0.00'.</msg>
+<arg>css:.wallet__balance</arg>
+<arg>R$ ${valor}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.223480" elapsed="0.010170"/>
+</kw>
+<arg>0.00</arg>
+<doc>Abre /carteira e confere o saldo exibido (ex.: R$ 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:26:06.906562" elapsed="0.327289"/>
+</kw>
+<doc>Registra um passageiro descartável; a carteira é criada no registro com saldo R$ 0.00.</doc>
+<status status="PASS" start="2026-10-20T08:26:05.351300" elapsed="1.882639"/>
+</kw>
+<kw name="Consultar o valor máximo estimado da corrida" owner="carteira_resources">
+<kw name="Cart Preencher origem e destino" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:07.235351" level="INFO">Opening url 'http://127.0.0.1:8000/home'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.235261" elapsed="0.321249"/>
+</kw>
+<arg>/home</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:07.235104" elapsed="0.321494"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.556997" elapsed="0.013026"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:07.570730" level="INFO">Typing text 'Rua XV de Novembro Curitiba' into text field 'css:#origem-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.570296" elapsed="0.053929"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.624377" elapsed="0.630381"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:08.255087" level="INFO">Clicking element 'css:#origem-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.254905" elapsed="0.025072"/>
+</kw>
+<arg>origem</arg>
+<arg>${ENDERECO_ORIGEM}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:26:07.556759" elapsed="0.723350"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.280606" elapsed="0.008045"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:08.289026" level="INFO">Typing text 'Jardim Botânico Curitiba' into text field 'css:#destino-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.288803" elapsed="0.042361"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.331311" elapsed="0.425948"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:08.757765" level="INFO">Clicking element 'css:#destino-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.757487" elapsed="0.034653"/>
+</kw>
+<arg>destino</arg>
+<arg>${ENDERECO_DESTINO}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:26:08.280330" elapsed="0.511904"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:18.990159" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-7.png"&gt;&lt;img src="selenium-screenshot-7.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-20T08:26:18.990280" level="FAIL">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</msg>
+<arg>css:#estimate-container .cost-estimate</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-10-20T08:26:08.792370" elapsed="10.198667">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<doc>Abre a /home do passageiro, escolhe origem e destino e espera a estimativa de custo carregar.</doc>
+<status status="FAIL" start="2026-10-20T08:26:07.234940" elapsed="11.756240">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<kw name="Cart Obter valor máximo da estimativa" owner="carteira_resources">
+<var>${maximo}</var>
+<doc>Lê a faixa "R$ min - R$ max" da estimativa e devolve só o máximo (ex.: 12.34).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.991364" elapsed="0.000036"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${VALOR_MAXIMO}</arg>
+<arg>${maximo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.991531" elapsed="0.000048"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Valor máximo estimado: R$ ${VALOR_MAXIMO}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.991790" elapsed="0.000016"/>
+</kw>
+<doc>Preenche origem e destino na /home e guarda o valor máximo da estimativa em ${VALOR_MAXIMO}
+(é esse valor que o PedidoCaronaService retém ao confirmar o pedido).</doc>
+<status status="FAIL" start="2026-10-20T08:26:07.234681" elapsed="11.757189">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</kw>
+<kw name="Depositar um centavo a menos que o valor máximo estimado" owner="carteira_resources">
+<doc>Deposita o valor máximo menos R$ 0,01 (equivale ao saldo de 29.99 contra uma retenção de 30.00).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.992148" elapsed="0.000024"/>
+</kw>
+<kw name="Tentar solicitar a carona no mesmo trajeto" owner="carteira_resources">
+<doc>Preenche a mesma origem e destino na /home para pedir a carona.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.992491" elapsed="0.000049"/>
+</kw>
+<kw name="Verificar que o pedido foi bloqueado por saldo insuficiente" owner="carteira_resources">
+<doc>A estimativa mostra "Saldo Insuficiente", informa o saldo atual e não exibe o botão "Confirmar Pedido";
+o usuário continua na /home, sem pedido criado.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.992975" elapsed="0.000042"/>
+</kw>
+<kw name="Verificar que o saldo da carteira não foi alterado" owner="carteira_resources">
+<doc>O saldo continua um centavo abaixo do valor máximo.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.993254" elapsed="0.000039"/>
+</kw>
+<kw name="Verificar que nenhuma retenção foi registrada" owner="carteira_resources">
+<doc>Sem acesso ao banco: em /atividade existe somente o depósito e nenhuma "Reserva de Saldo".</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:18.993557" elapsed="0.000038"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:19.048154" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-8.png"&gt;&lt;img src="selenium-screenshot-8.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:26:18.994845" elapsed="0.053439"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-20T08:26:19.048485" elapsed="2.191492"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-20T08:26:18.994125" elapsed="2.246011"/>
+</kw>
+<doc>Passageiro deposita um centavo a menos que o valor máximo estimado e tenta pedir a carona.
+Esperado: a estimativa mostra "Saldo Insuficiente" sem o botão de confirmar, o saldo não muda
+e nenhuma "Reserva de Saldo" é registrada. Na interface o pedido é barrado antes da retenção
+(PedidoCaronaService::novoPedido), então a transação "falhou" do PHPUnit não chega a ser gravada.</doc>
+<tag>carteira</tag>
+<tag>CT04</tag>
+<tag>retencao</tag>
+<status status="FAIL" start="2026-10-20T08:26:04.414153" elapsed="16.826505">Element 'css:#estimate-container .cost-estimate' not visible after 10 seconds.</status>
+</test>
+<test id="s1-t5" name="CT06 - Liquidação ao finalizar trajeto sem caronas" line="70">
+<kw name="Abrir o navegador" owner="comum" type="SETUP">
+<if>
+<branch type="IF" condition="$BROWSER_BINARY != ''">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=binary_location=r"${BROWSER_BINARY}"</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:21.242404" elapsed="0.000021"/>
+</kw>
+<status status="NOT RUN" start="2026-10-20T08:26:21.242148" elapsed="0.000309"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:21.242823" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000'.</msg>
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:21.242686" elapsed="0.819872"/>
+</kw>
+<status status="PASS" start="2026-10-20T08:26:21.242531" elapsed="0.820119"/>
+</branch>
+<status status="PASS" start="2026-10-20T08:26:21.242131" elapsed="0.820557"/>
+</if>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.062792" elapsed="0.019871"/>
+</kw>
+<kw name="Set Selenium Timeout" owner="SeleniumLibrary">
+<arg>${TIMEOUT}</arg>
+<doc>Sets the timeout that is used by various keywords.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.082886" elapsed="0.001015"/>
+</kw>
+<doc>Abre o navegador na http://127.0.0.1:8000, maximiza e define o timeout. Usa  se definido.</doc>
+<status status="PASS" start="2026-10-20T08:26:21.241990" elapsed="0.842002"/>
+</kw>
+<kw name="Autenticar o motorista do seed" owner="carteira_resources">
+<kw name="Fazer login" owner="comum">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:22.085374" level="INFO">Opening url 'http://127.0.0.1:8000/login'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.085244" elapsed="0.362949"/>
+</kw>
+<arg>/login</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:22.085017" elapsed="0.363363"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:input[name=email]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.448553" elapsed="0.012816"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:22.461789" level="INFO">Typing text 'motorista@org.com.br' into text field 'css:input[name=email]'.</msg>
+<arg>css:input[name=email]</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.461565" elapsed="0.050735"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:22.512835" level="INFO">Typing text 'SenhaForte!' into text field 'css:input[name=password]'.</msg>
+<arg>css:input[name=password]</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.512529" elapsed="0.042406"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:22.555464" level="INFO">Clicking button 'css:form[action$="/login"] button[type=submit]'.</msg>
+<arg>css:form[action$="/login"] button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.555163" elapsed="1.185108"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="URL não deve conter" owner="comum">
+<kw name="Get Location" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:23.744725" level="INFO">${url} = http://127.0.0.1:8000/home</msg>
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="PASS" start="2026-10-20T08:26:23.741477" elapsed="0.003301"/>
+</kw>
+<kw name="Should Not Contain" owner="BuiltIn">
+<arg>${url}</arg>
+<arg>${trecho}</arg>
+<doc>Fails if the `container` contains the `item`.</doc>
+<status status="PASS" start="2026-10-20T08:26:23.744974" elapsed="0.000547"/>
+</kw>
+<arg>/login</arg>
+<doc>Confere que a URL atual não contém o trecho (o SeleniumLibrary não tem Location Should Not Contain).</doc>
+<status status="PASS" start="2026-10-20T08:26:23.741184" elapsed="0.004432"/>
+</kw>
+<arg>${TIMEOUT}</arg>
+<arg>200ms</arg>
+<arg>URL não deve conter</arg>
+<arg>/login</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="PASS" start="2026-10-20T08:26:23.740577" elapsed="0.005111"/>
+</kw>
+<arg>${EMAIL_MOTORISTA}</arg>
+<arg>${SENHA_SEED}</arg>
+<doc>Faz login pela tela /login e espera sair dela.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.084715" elapsed="1.661051"/>
+</kw>
+<doc>Login como o motorista aprovado do seed.</doc>
+<status status="PASS" start="2026-10-20T08:26:22.084384" elapsed="1.661447"/>
+</kw>
+<kw name="Guardar o saldo e o histórico atuais do motorista" owner="carteira_resources">
+<kw name="Cart Obter saldo da carteira" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:23.747991" level="INFO">Opening url 'http://127.0.0.1:8000/carteira'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:23.747860" elapsed="0.299426"/>
+</kw>
+<arg>/carteira</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:23.747647" elapsed="0.299736"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet__balance</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.047520" elapsed="0.012886"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:24.070789" level="INFO">${texto} = R$ 0.00</msg>
+<var>${texto}</var>
+<arg>css:.wallet__balance</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.060612" elapsed="0.010229"/>
+</kw>
+<kw name="Fetch From Right" owner="String">
+<msg time="2026-10-20T08:26:24.071332" level="INFO">${saldo} =  0.00</msg>
+<var>${saldo}</var>
+<arg>${texto}</arg>
+<arg>R$</arg>
+<doc>Returns contents of the `string` after the last occurrence of `marker`.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.071048" elapsed="0.000313"/>
+</kw>
+<kw name="Strip String" owner="String">
+<msg time="2026-10-20T08:26:24.071671" level="INFO">${saldo} = 0.00</msg>
+<var>${saldo}</var>
+<arg>${saldo}</arg>
+<doc>Remove leading and/or trailing whitespaces from the given string.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.071507" elapsed="0.000191"/>
+</kw>
+<return>
+<value>${saldo}</value>
+<status status="PASS" start="2026-10-20T08:26:24.071866" elapsed="0.000061"/>
+</return>
+<msg time="2026-10-20T08:26:24.072043" level="INFO">${saldo} = 0.00</msg>
+<var>${saldo}</var>
+<doc>Abre /carteira e devolve o saldo exibido, sem o "R$" (ex.: 75.50).</doc>
+<status status="PASS" start="2026-10-20T08:26:23.747380" elapsed="0.324684"/>
+</kw>
+<kw name="Cart Contar transações do histórico" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:24.072694" level="INFO">Opening url 'http://127.0.0.1:8000/atividade'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.072603" elapsed="0.300883"/>
+</kw>
+<arg>/atividade</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:24.072446" elapsed="0.301138"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:.wallet-panel</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.373697" elapsed="0.015041"/>
+</kw>
+<kw name="Get Element Count" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:24.394916" level="INFO">${quantidade} = 0</msg>
+<var>${quantidade}</var>
+<arg>css:.tx-card</arg>
+<doc>Returns the number of elements matching ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.388894" elapsed="0.006089"/>
+</kw>
+<return>
+<value>${quantidade}</value>
+<status status="PASS" start="2026-10-20T08:26:24.395088" elapsed="0.000060"/>
+</return>
+<msg time="2026-10-20T08:26:24.395326" level="INFO">${quantidade} = 0</msg>
+<var>${quantidade}</var>
+<doc>Abre /atividade e devolve a quantidade de cartões de transação do extrato.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.072223" elapsed="0.323142"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:26:24.396410" level="INFO">${SALDO_ANTES} = 0.00</msg>
+<arg>${SALDO_ANTES}</arg>
+<arg>${saldo}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.395580" elapsed="0.000920"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-10-20T08:26:24.397393" level="INFO">${QTD_TRANSACOES_ANTES} = 0</msg>
+<arg>${QTD_TRANSACOES_ANTES}</arg>
+<arg>${quantidade}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.396754" elapsed="0.000704"/>
+</kw>
+<doc>O seed cria o motorista com saldo R$ 0.00 (equivale a criarUsuarioComSaldo('0.00')). Como a base pode já ter sido
+usada por outros testes, guarda o saldo e a quantidade de transações para comparar no fim.</doc>
+<status status="PASS" start="2026-10-20T08:26:23.747049" elapsed="0.650507"/>
+</kw>
+<kw name="Publicar um trajeto sem aceitar caronas" owner="carteira_resources">
+<kw name="Ir para" owner="comum">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:24.398841" level="INFO">Opening url 'http://127.0.0.1:8000/home/motorista'</msg>
+<arg>${BASE_URL}${caminho}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.398681" elapsed="0.331725"/>
+</kw>
+<arg>/home/motorista</arg>
+<doc>Navega para um caminho relativo à http://127.0.0.1:8000 (ex.: /register).</doc>
+<status status="PASS" start="2026-10-20T08:26:24.398321" elapsed="0.332234"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.731216" elapsed="0.013659"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:24.745407" level="INFO">Typing text 'Rua XV de Novembro Curitiba' into text field 'css:#origem-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.745085" elapsed="0.056025"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.801264" elapsed="0.627940"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:25.429799" level="INFO">Clicking element 'css:#origem-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:25.429504" elapsed="0.034491"/>
+</kw>
+<arg>origem</arg>
+<arg>${ENDERECO_ORIGEM}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:26:24.730800" elapsed="0.733351"/>
+</kw>
+<kw name="Cart Selecionar endereço no autocomplete" owner="carteira_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:25.464852" elapsed="0.011613"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:25.477136" level="INFO">Typing text 'Jardim Botânico Curitiba' into text field 'css:#destino-wrapper input[type=text]'.</msg>
+<arg>css:#${campo}-wrapper input[type=text]</arg>
+<arg>${busca}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:25.476719" elapsed="0.052242"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-10-20T08:26:25.529227" elapsed="0.500724"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:26.030576" level="INFO">Clicking element 'css:#destino-wrapper .autocomplete-item__button'.</msg>
+<arg>css:#${campo}-wrapper .autocomplete-item__button</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:26.030237" elapsed="0.067291"/>
+</kw>
+<arg>destino</arg>
+<arg>${ENDERECO_DESTINO}</arg>
+<doc>Digita o endereço no campo (origem ou destino) e clica na primeira sugestão do autocomplete.</doc>
+<status status="PASS" start="2026-10-20T08:26:25.464414" elapsed="0.633286"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:26.098281" level="INFO">Clicking button 'css:form.route-builder button[type=submit]'.</msg>
+<arg>css:form.route-builder button[type=submit]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-10-20T08:26:26.097906" elapsed="0.062521"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:36.388163" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-9.png"&gt;&lt;img src="selenium-screenshot-9.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-10-20T08:26:36.388310" level="FAIL">Location did not contain '/trajeto/' in 10 seconds.</msg>
+<arg>/trajeto/</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="FAIL" start="2026-10-20T08:26:26.160641" elapsed="10.231287">Location did not contain '/trajeto/' in 10 seconds.</status>
+</kw>
+<kw name="Get Location" owner="SeleniumLibrary">
+<var>${url}</var>
+<doc>Returns the current browser window URL.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.392175" elapsed="0.000049"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${URL_TRAJETO}</arg>
+<arg>${url}</arg>
+<doc>Makes the variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.392391" elapsed="0.000038"/>
+</kw>
+<doc>Em /home/motorista escolhe origem e destino e clica em "Publicar Trajeto"; as sugestões do mapa são ignoradas.</doc>
+<status status="FAIL" start="2026-10-20T08:26:24.397949" elapsed="11.994623">Location did not contain '/trajeto/' in 10 seconds.</status>
+</kw>
+<kw name="Iniciar o trajeto" owner="carteira_resources">
+<doc>Clica em "Iniciar Trajeto" (hx-post em trajeto.iniciar); a página recarrega sem o botão.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.393014" elapsed="0.000046"/>
+</kw>
+<kw name="Verificar que o trajeto está em andamento" owner="carteira_resources">
+<doc>Na /home/motorista, o atalho flutuante de viagem ativa aponta para o trajeto com o status "Em Andamento".</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.393346" elapsed="0.000028"/>
+</kw>
+<kw name="Finalizar o trajeto" owner="carteira_resources">
+<doc>Volta ao trajeto, abre o popup do marcador de destino (último marcador azul) e clica em "Finalizar"
+(equivale a chamar TrajetoService::finalizarTrajeto).</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.393674" elapsed="0.000025"/>
+</kw>
+<kw name="Verificar que o trajeto foi concluído" owner="carteira_resources">
+<doc>Termina em /home e o atalho flutuante do trajeto some (ele só aparece para trajeto planejado ou em andamento).
+Sem acesso ao banco, é assim que o status "concluido" é confirmado.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.395490" elapsed="0.000028"/>
+</kw>
+<kw name="Verificar que nenhuma transação foi gerada para o motorista" owner="carteira_resources">
+<doc>Sem acesso ao banco: o histórico do motorista em /atividade tem a mesma quantidade de transações de antes
+(sem "Fechamento da Carona" nem "Ajuda de Custo").</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.396883" elapsed="0.000037"/>
+</kw>
+<kw name="Verificar que o saldo do motorista não foi alterado" owner="carteira_resources">
+<doc>O saldo em /carteira é o mesmo guardado antes de publicar o trajeto.</doc>
+<status status="NOT RUN" start="2026-10-20T08:26:36.397476" elapsed="0.000027"/>
+</kw>
+<kw name="Fechar o navegador" owner="comum" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-10-20T08:26:36.455573" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-10.png"&gt;&lt;img src="selenium-screenshot-10.png" width="800px"&gt;&lt;/a&gt;</msg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-10-20T08:26:36.399818" elapsed="0.055864"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2026-10-20T08:26:36.455850" elapsed="2.172638"/>
+</kw>
+<doc>Tira um screenshot e fecha todos os navegadores.</doc>
+<status status="PASS" start="2026-10-20T08:26:36.399585" elapsed="2.229013"/>
+</kw>
+<doc>Motorista do seed publica um trajeto, inicia e finaliza sem aceitar nenhuma carona.
+Esperado: trajeto concluído (o atalho de viagem ativa some), nenhuma transação nova
+(sem liquidação nem ajuda de custo) e saldo do motorista inalterado.</doc>
+<tag>carteira</tag>
+<tag>CT06</tag>
+<tag>trajeto</tag>
+<status status="FAIL" start="2026-10-20T08:26:21.241342" elapsed="17.387497">Location did not contain '/trajeto/' in 10 seconds.</status>
+</test>
+<doc>Carteira: depósito, retenção de saldo e liquidação de trajeto (CT01, CT02, CT03, CT04, CT06).
+Pré-requisito: aplicação rodando com o seed (motorista@org.com.br) e acesso à internet
+(autocomplete de endereços, cálculo de rota e mapa).
+Os passos de cada caso espelham os testes de tests/Feature/JoaoPozzan/CarteiraTest.php,
+adaptados para a interface.</doc>
+<status status="FAIL" start="2026-10-20T08:25:23.143993" elapsed="75.485467"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="3" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="2" fail="3" skip="0">carteira</stat>
+<stat pass="1" fail="0" skip="0">CT01</stat>
+<stat pass="1" fail="0" skip="0">CT02</stat>
+<stat pass="0" fail="1" skip="0">CT03</stat>
+<stat pass="0" fail="1" skip="0">CT04</stat>
+<stat pass="0" fail="1" skip="0">CT06</stat>
+<stat pass="0" fail="2" skip="0">retencao</stat>
+<stat pass="0" fail="1" skip="0">trajeto</stat>
+</tag>
+<suite>
+<stat name="Carteira" id="s1" pass="2" fail="3" skip="0">Carteira</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
