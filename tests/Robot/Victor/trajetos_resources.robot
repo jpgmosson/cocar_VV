@@ -27,20 +27,42 @@ Preparar teste de trajetos
     Set Test Variable    ${PEDIDO_TESTE_ATIVO}    ${FALSE}
     Set Test Variable    ${TRAJETO_TESTE_ATIVO}    ${FALSE}
     Set Test Variable    ${NAVEGADOR_MOTORISTA_TESTE}    ${EMPTY}
-    Abrir o navegador
+    ${captura_anterior}=    Register Keyword To Run On Failure    NONE
+    Set Test Variable    ${CAPTURA_AUTOMATICA_ANTERIOR}    ${captura_anterior}
+    Abrir navegador de teste
     ${navegadores}=    Get Browser Ids
     Set Test Variable    ${NAVEGADOR_PASSAGEIRO_TESTE}    ${navegadores}[-1]
 
 Encerrar teste de trajetos
-    [Documentation]    Registra a tela antes da limpeza, cancela apenas os registros deste CT e sempre fecha o navegador.
+    [Documentation]    Registra a tela em caso de falha, cancela apenas os registros deste CT e sempre fecha o navegador.
     ...                Falhas de limpeza também reprovam o caso, mas não impedem as demais tentativas de encerramento.
     TRY
-        Run Keyword And Ignore Error    Capture Page Screenshot
+        IF    $TEST_STATUS == 'FAIL'
+            Run Keyword And Ignore Error    Capture Page Screenshot    falha-${TEST NAME}.png
+        END
         Run Keyword And Continue On Failure    Limpar trajeto de teste
         Run Keyword And Continue On Failure    Limpar pedido de teste
     FINALLY
         Close All Browsers
+        Register Keyword To Run On Failure    ${CAPTURA_AUTOMATICA_ANTERIOR}
     END
+
+Abrir navegador de teste
+    Abrir o navegador
+    Set Window Size    1440    1000
+
+Capturar evidência de trajetos
+    [Documentation]    Captura a interface real após fontes, mapa e marcadores carregarem; evita imagens durante transições.
+    [Arguments]    ${arquivo}
+    Wait For Condition    return document.readyState === 'complete' && (!document.fonts || document.fonts.status === 'loaded');    timeout=30s
+    ${tem_mapa}=    Get Element Count    css:#map
+    IF    ${tem_mapa} > 0
+        Wait Until Page Contains Element    css:#map .maplibregl-marker    timeout=45s
+        # Os marcadores são adicionados pelo evento load do próprio mapa.
+        Wait For Condition    const canvas = document.querySelector('#map canvas.maplibregl-canvas'); return canvas && canvas.width > 0 && canvas.height > 0;    timeout=45s    error=O canvas do mapa não ficou disponível para a evidência.
+        Execute Async Javascript    const done = arguments[arguments.length - 1]; requestAnimationFrame(() => requestAnimationFrame(() => done()));
+    END
+    Capture Page Screenshot    ${arquivo}
 
 Registrar passageiro de teste
     [Documentation]    Cadastra passageiro com e-mail e CPF novos no domínio do seed; o cadastro já inicia a sessão.
@@ -93,7 +115,7 @@ Endereço do trajeto deve estar selecionado
 Acessar como motorista de teste
     [Documentation]    Usa uma sessão própria e faz login apenas uma vez por CT, evitando o limite de tentativas do Fortify.
     IF    $NAVEGADOR_MOTORISTA_TESTE == ''
-        Abrir o navegador
+        Abrir navegador de teste
         ${navegadores}=    Get Browser Ids
         Fazer login    ${EMAIL_MOTORISTA}    ${SENHA_SEED}
         Set Test Variable    ${NAVEGADOR_MOTORISTA_TESTE}    ${navegadores}[-1]

@@ -16,10 +16,10 @@ CT30 - Iniciar trajeto planejado e atualizar carona aceita
     Preparar trajeto com passageiro aceito
     Iniciar trajeto de teste
     Verificar indicador do trajeto    Em Andamento
-    Capture Page Screenshot    ct30-trajeto-em-andamento.png
+    Capturar evidência de trajetos    ct30-trajeto-em-andamento.png
     Acessar como passageiro de teste
     Verificar status do passageiro    Motorista a caminho
-    Capture Page Screenshot    ct30-motorista-a-caminho.png
+    Capturar evidência de trajetos    ct30-motorista-a-caminho.png
 
 CT32 - Confirmar embarque do passageiro
     [Documentation]    Em um trajeto iniciado, o motorista abre a parada do passageiro no mapa e confirma o embarque.
@@ -34,9 +34,9 @@ CT32 - Confirmar embarque do passageiro
     Embarcar passageiro de teste
     Acessar como passageiro de teste
     Verificar status do passageiro    A caminho do destino
-    Capture Page Screenshot    ct32-passageiro-embarcado.png
+    Capturar evidência de trajetos    ct32-passageiro-embarcado.png
     Verificar indicador do pedido    Em Andamento
-    Capture Page Screenshot    ct32-indicador-em-andamento.png
+    Capturar evidência de trajetos    ct32-indicador-em-andamento.png
 
 CT34 - Cancelar carona e liberar o pedido do passageiro
     [Documentation]    Motorista cancela individualmente a carona aceita pelo popup da parada no mapa.
@@ -46,11 +46,11 @@ CT34 - Cancelar carona e liberar o pedido do passageiro
     Preparar trajeto com passageiro aceito
     Cancelar carona do passageiro de teste
     Verificar indicador do trajeto    Planejado
-    Capture Page Screenshot    ct34-trajeto-preservado.png
+    Capturar evidência de trajetos    ct34-trajeto-preservado.png
     Acessar como passageiro de teste
     Verificar status do passageiro    Procurando motorista...
     Page Should Not Contain Element    css:.bottom-panel__profile
-    Capture Page Screenshot    ct34-pedido-liberado.png
+    Capturar evidência de trajetos    ct34-pedido-liberado.png
     Verificar indicador do pedido    Procurando Motorista
 
 CT36 - Aceitar pedido disponível e criar vínculo de carona
@@ -62,12 +62,12 @@ CT36 - Aceitar pedido disponível e criar vínculo de carona
     Acessar como motorista de teste
     Publicar trajeto de teste
     Aceitar passageiro de teste
-    Capture Page Screenshot    ct36-pedido-aceito-motorista.png
+    Capturar evidência de trajetos    ct36-pedido-aceito-motorista.png
     Acessar como passageiro de teste
     Verificar status do passageiro    Carona aceita
     Element Text Should Be    css:.bottom-panel__name    ${NOME_MOTORISTA}
     Element Text Should Be    css:.bottom-panel__subtitle    Aguardando motorista iniciar trajeto
-    Capture Page Screenshot    ct36-carona-aceita-passageiro.png
+    Capturar evidência de trajetos    ct36-carona-aceita-passageiro.png
     Verificar indicador do pedido    Aceita
 
 CT38 - Exibir indicador de viagem ativa conforme o estado do usuário
@@ -77,16 +77,16 @@ CT38 - Exibir indicador de viagem ativa conforme o estado do usuário
     [Tags]    CT38    trajeto    viagem_ativa
     Registrar passageiro de teste
     Verificar ausência de indicador de viagem ativa
-    Capture Page Screenshot    ct38-usuario-sem-viagem.png
+    Capturar evidência de trajetos    ct38-usuario-sem-viagem.png
     Criar pedido do passageiro de teste
     Verificar indicador do pedido    Procurando Motorista
     Abrir pedido pelo indicador de viagem ativa
     Verificar status do passageiro    Procurando motorista...
-    Capture Page Screenshot    ct38-pedido-procurando-motorista.png
+    Capturar evidência de trajetos    ct38-pedido-procurando-motorista.png
     Acessar como motorista de teste
     Publicar trajeto de teste
     Verificar indicador do trajeto    Planejado
-    Capture Page Screenshot    ct38-trajeto-planejado.png
+    Capturar evidência de trajetos    ct38-trajeto-planejado.png
     Abrir trajeto pelo indicador de viagem ativa
     Aceitar passageiro de teste
     Iniciar trajeto de teste
@@ -94,11 +94,11 @@ CT38 - Exibir indicador de viagem ativa conforme o estado do usuário
     Acessar como passageiro de teste
     Verificar status do passageiro    A caminho do destino
     Verificar indicador do pedido    Em Andamento
-    Capture Page Screenshot    ct38-carona-em-andamento.png
+    Capturar evidência de trajetos    ct38-carona-em-andamento.png
     Acessar como motorista de teste
     Finalizar trajeto de teste
     Verificar ausência do indicador do trajeto concluído
-    Capture Page Screenshot    ct38-motorista-apos-conclusao.png
+    Capturar evidência de trajetos    ct38-motorista-apos-conclusao.png
     Acessar como passageiro de teste
     Verificar ausência de indicador de viagem ativa
-    Capture Page Screenshot    ct38-passageiro-apos-conclusao.png
+    Capturar evidência de trajetos    ct38-passageiro-apos-conclusao.png
