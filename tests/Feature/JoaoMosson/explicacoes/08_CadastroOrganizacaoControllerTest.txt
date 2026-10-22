@@ -1,0 +1,283 @@
+==============================================================================
+CadastroOrganizacaoControllerTest  (arquivo: tests/Feature/JoaoMosson/CadastroOrganizacaoControllerTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se um cadastro com dados válidos grava a organização e o administrador (tipo administrador_organizacao), vinculados entre si.
+* Testa se, depois do cadastro, o administrador fica logado e é redirecionado para o painel.
+* Testa se, quando a criação do administrador falha, a organização NÃO fica gravada no banco (nem o usuário), e ninguém fica logado.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Enums\TipoUsuario;
+    use App\Models\Organizacao;
+    use App\Models\User;
+EXPLICAÇÃO:
+    Enum com os perfis de usuário. O administrador criado no cadastro deve ser ADMINISTRADOR_ORGANIZACAO.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Illuminate\Support\Facades\Auth;
+EXPLICAÇÃO:
+    Facade de autenticação: Auth::check() pergunta "há alguém logado?" e Auth::id() devolve o id de quem está.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    TestCase do Laravel: sobe a aplicação, simula requisições HTTP e usa banco com rollback ao fim de cada teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class CadastroOrganizacaoControllerTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Testa o método cadastrar() de app/Http/Controllers/Auth/CadastroOrganizacaoController.php (rota POST /organizacoes).
+    O que ele faz, em ordem:
+    1) valida o formulário (CNPJ e CPF válidos pelas regras próprias, CNPJ/domínio/e-mail únicos, senha confirmada);
+    2) abre uma TRANSAÇÃO no banco (DB::transaction) e dentro dela cria a Organizacao e depois o usuário
+    administrador (tipo ADMINISTRADOR_ORGANIZACAO) ligado a ela;
+    3) faz login automático desse administrador (Auth::login);
+    4) redireciona para o painel (admin.painel).
+    A rota está no grupo "guest": só quem NÃO está logado pode acessá-la (por isso o teste não usa actingAs).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_cria_organizacao_e_administrador_em_transacao_atomica_e_realiza_login(): void
+        {
+EXPLICAÇÃO:
+    CASO 1 (caminho feliz): organização e administrador são criados juntos, e o administrador já fica logado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $payload = [
+                'organizacao-nome' => 'Tech Solutions',
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    Os dados que o formulário enviaria. As CHAVES precisam ter exatamente os mesmos nomes dos campos
+    que o controller valida (note os hífens, como 'organizacao-nome').
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'cnpj' => '11444777000161',
+                'dominio_email' => 'techsolutions.com',
+                'administrador-nome' => 'Admin Tech',
+                'administrador-email' => 'admin@techsolutions.com',
+EXPLICAÇÃO:
+    CNPJ válido, para passar pela regra Cnpj.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'administrador-cpf' => '52998224725',
+                'password' => 'Segredo123#',
+EXPLICAÇÃO:
+    CPF válido, para passar pela regra Cpf.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'password_confirmation' => 'Segredo123#',
+            ];
+EXPLICAÇÃO:
+    A regra "confirmed" exige este campo extra com o mesmo valor de "password".
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->post(route('organizacao.criar'), $payload);
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    Faz um POST HTTP simulado (sem navegador) para a rota de nome 'organizacao.criar', enviando o payload
+    como se fosse o formulário preenchido. O teste NÃO segue o redirecionamento: só guarda a resposta.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertRedirect(route('admin.painel'));
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+    A resposta deve ser um redirecionamento para o painel do administrador (o último passo do controller).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseHas('organizacoes', [
+                'nome' => 'Tech Solutions',
+                'cnpj' => '11444777000161',
+                'dominio_email' => 'techsolutions.com',
+            ]);
+EXPLICAÇÃO:
+    Confere no BANCO que a organização foi gravada. A tabela se chama "organizacoes" (definida no model).
+    O Laravel faz um SELECT procurando uma linha que tenha TODOS esses valores ao mesmo tempo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseHas('users', [
+                'email' => 'admin@techsolutions.com',
+                'tipo' => TipoUsuario::ADMINISTRADOR_ORGANIZACAO->value,
+            ]);
+EXPLICAÇÃO:
+    Confere que o administrador foi gravado em "users" COM o tipo certo. "->value" extrai o texto que o enum
+    representa ('administrador_organizacao'), que é como ele fica salvo na coluna.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $admin = User::where('email', 'admin@techsolutions.com')->first();
+EXPLICAÇÃO:
+    Busca o administrador no banco para usar o id dele nas comparações seguintes.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertTrue(Auth::check());
+EXPLICAÇÃO:
+    O controller chamou Auth::login(): a aplicação agora tem um usuário autenticado.
+    (O estado de login continua disponível depois da requisição simulada, pois tudo roda no mesmo processo.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals(Auth::id(), $admin->id);
+EXPLICAÇÃO:
+    E quem está logado é EXATAMENTE o administrador criado (e não outro usuário qualquer).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals($admin->organizacao_id, Organizacao::where('cnpj', '11444777000161')->first()->id);
+        }
+EXPLICAÇÃO:
+    O administrador está ligado à organização recém-criada: o organizacao_id dele deve ser igual ao id da
+    organização encontrada pelo CNPJ. Prova que as duas criações foram conectadas, e não feitas soltas.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_reverte_criacao_da_organizacao_se_houver_falha_ao_criar_o_usuario(): void
+        {
+EXPLICAÇÃO:
+    CASO 2 (falha no meio do processo): se a criação do usuário der erro, a organização que JÁ tinha sido criada
+    precisa ser desfeita. Isso se chama atomicidade: "ou grava tudo, ou não grava nada".
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            User::saving(function () {
+                throw new \Exception('Erro simulado de banco na criação do integrante.');
+            });
+EXPLICAÇÃO:
+    Força erro interceptando o momento da criação do usuário ou disparando exceção no evento
+    
+    O Eloquent dispara "eventos" nos models. "saving" é disparado ANTES de gravar (INSERT ou UPDATE).
+    User::saving(função) registra um "ouvinte" que roda toda vez que um User está prestes a ser salvo.
+    Este ouvinte sempre lança uma exceção, então qualquer tentativa de salvar um usuário falha.
+    É uma forma de simular "o banco deu erro na hora de criar o administrador" sem precisar quebrar o banco.
+    (O Laravel recria a aplicação a cada teste, então este ouvinte não vaza para os outros testes.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $payload = [
+                'organizacao-nome' => 'Falha Corp',
+                'cnpj' => '11444777000161',
+                'dominio_email' => 'falhacorp.com',
+                'administrador-nome' => 'Carlos',
+                'administrador-email' => 'carlos@falhacorp.com',
+                'administrador-cpf' => '52998224725',
+                'password' => 'Segredo123#',
+                'password_confirmation' => 'Segredo123#',
+            ];
+EXPLICAÇÃO:
+    Dados 100% VÁLIDOS. Isso é proposital: a validação do formulário passa, a organização é criada
+    e a falha só ocorre depois, na criação do usuário. É exatamente o cenário que queremos testar.
+    (Com dados inválidos, o erro viria antes da transação e o teste não provaria nada sobre rollback.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            try {
+EXPLICAÇÃO:
+    Abre um bloco try: o código dentro dele é executado normalmente e, se lançar uma exceção, o bloco catch logo abaixo a captura em vez de deixá-la derrubar o teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->withoutExceptionHandling()->post(route('organizacao.criar'), $payload);
+            } catch (\Exception $e) {
+EXPLICAÇÃO:
+    Normalmente o Laravel captura as exceções da requisição e as transforma numa resposta de erro
+    (página 500). withoutExceptionHandling() desliga essa captura, para a exceção ORIGINAL chegar até o teste.
+    
+    O que acontece por dentro, passo a passo:
+    a) a validação passa;
+    b) DB::transaction abre a transação;
+    c) Organizacao::create() faz o INSERT da organização (ainda provisório, dentro da transação);
+    d) ao criar o usuário, o evento "saving" dispara e o ouvinte lança a exceção;
+    e) o DB::transaction percebe a exceção, desfaz tudo (rollback, inclusive a organização) e relança;
+    f) a exceção chega ao catch abaixo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->assertEquals('Erro simulado de banco na criação do integrante.', $e->getMessage());
+            }
+EXPLICAÇÃO:
+    Confere que a exceção capturada é a SIMULADA, e não outra (por exemplo, um erro de validação
+    seria uma exceção diferente, com outra mensagem, e faria o teste falhar aqui).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseMissing('organizacoes', ['cnpj' => '11444777000161']);
+EXPLICAÇÃO:
+    O ponto central do teste: a organização NÃO deve existir. Ela chegou a ser inserida no passo (c),
+    mas o rollback do passo (e) a desfez. Se o controller não usasse transação, ela continuaria aqui
+    e este assert falharia.
+    (Se nenhuma exceção tivesse sido lançada, o usuário e a organização teriam sido gravados e os asserts
+    desta parte falhariam, então o teste não passa "por acaso".)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseMissing('users', ['email' => 'carlos@falhacorp.com']);
+EXPLICAÇÃO:
+    O usuário também não foi gravado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertFalse(Auth::check());
+        }
+    }
+EXPLICAÇÃO:
+    E como o erro aconteceu ANTES do Auth::login() do controller, ninguém ficou logado.
+
+------------------------------------------------------------------------------
+

@@ -1,0 +1,222 @@
+==============================================================================
+UsuarioControllerTest  (arquivo: tests/Feature/JoaoMosson/UsuarioControllerTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se o administrador de uma organização vê na lista os usuários da própria organização (e ele mesmo), mas NÃO vê os de outra organização.
+* Testa se o administrador do sistema vê na lista os usuários de TODAS as organizações.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Enums\TipoUsuario;
+    use App\Models\Organizacao;
+    use App\Models\User;
+EXPLICAÇÃO:
+    Enum com os perfis de usuário (PADRAO, ADMINISTRADOR_ORGANIZACAO, ADMINISTRADOR_SISTEMA).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    TestCase do Laravel: sobe a aplicação, simula requisições HTTP e usa banco com rollback.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class UsuarioControllerTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Testa o método exibir() de app/Http/Controllers/Admin/UsuarioController.php.
+    Ele escolhe QUAIS usuários listar de acordo com quem está logado, usando um "match" sobre o tipo:
+    ADMINISTRADOR_ORGANIZACAO => $user->organizacao->integrantes()  (só os da própria organização)
+    ADMINISTRADOR_SISTEMA     => User::query()                      (todos os usuários do sistema)
+    Em seguida aplica filtros opcionais (status de motorista, pesquisa, tipo). Como estes testes não passam
+    nenhum parâmetro, esses filtros não alteram o resultado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_administrador_de_organizacao_visualiza_apenas_integrantes_da_propria_empresa(): void
+        {
+EXPLICAÇÃO:
+    CASO 1: o administrador de uma organização NÃO pode ver usuários de outra organização (isolamento de dados).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $orgA = Organizacao::create(['nome' => 'Org A', 'cnpj' => '11444777000161', 'dominio_email' => 'orga.com']);
+            $orgB = Organizacao::create(['nome' => 'Org B', 'cnpj' => '22555888000192', 'dominio_email' => 'orgb.com']);
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    Duas organizações distintas. Cada uma tem CNPJ e domínio próprios porque esses campos são únicos.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $adminOrgA = User::factory()->create([
+                'organizacao_id' => $orgA->id,
+                'tipo' => TipoUsuario::ADMINISTRADOR_ORGANIZACAO,
+            ]);
+EXPLICAÇÃO:
+    O administrador da Org A. Dois campos importam aqui: "tipo" (decide o ramo do match no controller)
+    e "organizacao_id" (decide de qual empresa ele enxerga os integrantes).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $membroA = User::factory()->create(['name' => 'Funcionario A', 'organizacao_id' => $orgA->id]);
+            $membroB = User::factory()->create(['name' => 'Funcionario B', 'organizacao_id' => $orgB->id]);
+EXPLICAÇÃO:
+    Um funcionário de cada empresa. Não definimos "tipo", então valem os padrões: a coluna do banco tem
+    default 'padrao'. O 'name' é só para facilitar a leitura caso o teste falhe.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($adminOrgA)->get(route('admin.usuarios'));
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    Requisição GET à rota 'admin.usuarios' (/dashboard/usuarios), feita como o administrador da Org A.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertOk();
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+    Status 200: a página carregou normalmente.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertViewHas('users', function ($users) use ($membroA, $membroB, $adminOrgA) {
+                return
+EXPLICAÇÃO:
+    Inspeciona a variável "users" que o controller enviou para a view. A função recebe essa Collection
+    e precisa devolver true. ->contains($model) procura na coleção um model com a MESMA chave primária
+    e a mesma tabela (ou seja, "é o mesmo registro?"), e não compara campo a campo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    $users->contains($membroA)
+EXPLICAÇÃO:
+    Vê o funcionário da própria empresa.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && $users->contains($adminOrgA)
+EXPLICAÇÃO:
+    Vê a si mesmo, porque o administrador também é integrante da Org A (tem o organizacao_id dela).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && ! $users->contains($membroB);
+            });
+        }
+EXPLICAÇÃO:
+    O teste principal: NÃO vê o funcionário da Org B. É o que garante o isolamento entre empresas.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_administrador_do_sistema_visualiza_usuarios_de_todas_as_organizacoes(): void
+        {
+EXPLICAÇÃO:
+    CASO 2: o administrador do SISTEMA vê todos os usuários, de qualquer organização.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $orgA = Organizacao::create(['nome' => 'Org A', 'cnpj' => '11444777000161', 'dominio_email' => 'orga.com']);
+            $orgB = Organizacao::create(['nome' => 'Org B', 'cnpj' => '22555888000192', 'dominio_email' => 'orgb.com']);
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    As mesmas duas organizações do teste anterior. Não há conflito de CNPJ, pois o banco foi
+    revertido (rollback) ao final do outro teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $superAdmin = User::factory()->create(['tipo' => TipoUsuario::ADMINISTRADOR_SISTEMA]);
+EXPLICAÇÃO:
+    O super administrador: tipo ADMINISTRADOR_SISTEMA e SEM organizacao_id (não pertence a empresa nenhuma).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $membroA = User::factory()->create(['organizacao_id' => $orgA->id]);
+            $membroB = User::factory()->create(['organizacao_id' => $orgB->id]);
+EXPLICAÇÃO:
+    Um funcionário em cada organização.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($superAdmin)->get(route('admin.usuarios'));
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    A mesma rota do teste anterior, mas agora logado como super administrador.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertOk();
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertViewHas('users', function ($users) use ($membroA, $membroB, $superAdmin) {
+                return
+EXPLICAÇÃO:
+    Aqui TODOS devem aparecer na lista, o que mostra que o controller usou User::query() (sem restrição).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    $users->contains($membroA)
+EXPLICAÇÃO:
+    Funcionário da Org A.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && $users->contains($membroB)
+EXPLICAÇÃO:
+    Funcionário da Org B (diferente do caso 1, onde ele ficava de fora).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && $users->contains($superAdmin);
+            });
+        }
+    }
+EXPLICAÇÃO:
+    O próprio super administrador, que não pertence a nenhuma organização, mas é um usuário do sistema.
+
+------------------------------------------------------------------------------
+

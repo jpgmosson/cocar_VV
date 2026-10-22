@@ -1,0 +1,274 @@
+==============================================================================
+OrganizacaoControllerTest  (arquivo: tests/Feature/JoaoMosson/OrganizacaoControllerTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se a pesquisa por "alpha" devolve só a organização Alpha, e não a Beta.
+* Testa se essa organização vem com a contagem correta de integrantes (3).
+* Testa se enviar um novo nome para uma organização atualiza o nome no banco, sem erros, e volta para a listagem.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Enums\TipoUsuario;
+    use App\Models\Organizacao;
+    use App\Models\User;
+EXPLICAÇÃO:
+    Enum com os perfis de usuário. Aqui usamos ADMINISTRADOR_SISTEMA, o único que tem acesso total.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    TestCase do Laravel: sobe a aplicação, permite simular requisições HTTP (get/put/post) e usa banco com rollback.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class OrganizacaoControllerTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Testa o controller app/Http/Controllers/Admin/OrganizacaoController.php, que tem dois métodos:
+    listar(): monta a lista de organizações (com a contagem de integrantes e um filtro opcional de pesquisa);
+    alterar(): valida e atualiza o nome de uma organização, depois volta para a página anterior.
+    As rotas dele ficam num grupo que exige estar logado ("auth") e ser administrador (VerificarTipo).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private User $admin;
+EXPLICAÇÃO:
+    Propriedade que guarda o administrador para ser usado em todos os testes da classe.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        protected function setUp(): void
+        {
+EXPLICAÇÃO:
+    Roda antes de CADA teste. Como o banco é limpo entre os testes, este administrador é recriado a cada vez.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            parent::setUp();
+EXPLICAÇÃO:
+    Sobe a aplicação e prepara o banco.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->admin = User::factory()->create([
+                'tipo' => TipoUsuario::ADMINISTRADOR_SISTEMA,
+            ]);
+        }
+EXPLICAÇÃO:
+    Cria e grava um administrador do SISTEMA. A factory preenche nome, e-mail, CPF e senha com dados falsos;
+    só o "tipo" foi definido por nós. É esse tipo que permite passar pelo middleware das rotas /dashboard/*.
+    Ele não tem organizacao_id (não pertence a nenhuma empresa).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_lista_organizacoes_com_contagem_de_integrantes_e_filtro_por_termo(): void
+        {
+EXPLICAÇÃO:
+    CASO 1: a listagem traz a contagem de integrantes por organização e o filtro de pesquisa funciona.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $orgAlvo = Organizacao::create([
+                'nome' => 'Alpha Motors',
+                'cnpj' => '11444777000161',
+                'dominio_email' => 'alpha.com',
+            ]);
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    Organização que a pesquisa "alpha" DEVE encontrar. Organizacao::create() faz o INSERT e devolve o objeto.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $orgOutra = Organizacao::create([
+                'nome' => 'Beta Tech',
+                'cnpj' => '22555888000192',
+                'dominio_email' => 'beta.com',
+            ]);
+EXPLICAÇÃO:
+    Organização que a pesquisa NÃO deve encontrar (serve de contraste). O CNPJ e o domínio são diferentes
+    dos da primeira porque esses campos são únicos.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            User::factory()->count(3)->create(['organizacao_id' => $orgAlvo->id]);
+EXPLICAÇÃO:
+    Cria 3 usuários pertencentes à organização alvo. ->count(3) manda a factory repetir 3 vezes.
+    Eles servem para verificar a contagem de integrantes. O administrador do setUp NÃO é contado,
+    pois ele não tem organizacao_id.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($this->admin)
+                ->get(route('admin.organizacoes', ['pesquisa' => 'alpha']));
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    actingAs($admin): a requisição é feita como se o administrador já estivesse logado.
+    route('admin.organizacoes', ['pesquisa' => 'alpha']) gera a URL da rota pelo NOME, acrescentando
+    o parâmetro como query string: /dashboard/organizacoes?pesquisa=alpha.
+    ->get() faz a requisição HTTP simulada e devolve a resposta em $response.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertOk();
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+    Status 200: a página carregou sem redirecionamento nem erro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertViewHas('organizacoes', function ($orgs) use ($orgAlvo, $orgOutra) {
+EXPLICAÇÃO:
+    assertViewHas('organizacoes', função): olha a variável "organizacoes" que o controller enviou para a view
+    (compact('organizacoes')). Quando o segundo argumento é uma função, o Laravel a executa passando o valor
+    da variável, e o teste só passa se ela devolver true. O "use" traz variáveis de fora para dentro da função.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $primeira = $orgs->first();
+EXPLICAÇÃO:
+    $orgs é uma Collection do Laravel. ->first() pega o primeiro item.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                return
+EXPLICAÇÃO:
+    Todas as condições abaixo, ligadas por &&, precisam ser verdadeiras ao mesmo tempo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    $orgs->count() === 1
+EXPLICAÇÃO:
+    Veio exatamente UMA organização: o filtro excluiu a outra.
+    (O filtro do controller usa LIKE em nome, dominio_email e cnpj. No PostgreSQL o LIKE diferencia
+    maiúsculas de minúsculas: "alpha" NÃO casa com o nome "Alpha Motors". Quem faz o casamento
+    é o domínio "alpha.com". O teste passa do mesmo jeito, mas por causa do domínio.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && $primeira->id === $orgAlvo->id
+EXPLICAÇÃO:
+    E a que veio é a Alpha Motors (comparação pelo id).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && $primeira->integrantes_count === 3
+EXPLICAÇÃO:
+    "integrantes_count" é uma coluna calculada que o controller cria com withCount('integrantes'):
+    um COUNT dos usuários da organização feito pelo próprio SQL. Esperamos os 3 criados acima.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    && ! $orgs->contains($orgOutra);
+            });
+        }
+EXPLICAÇÃO:
+    Reforço: a Beta Tech não está na coleção.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_atualiza_o_nome_da_organizacao_com_sucesso(): void
+        {
+EXPLICAÇÃO:
+    CASO 2: o administrador consegue renomear uma organização.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $org = Organizacao::create([
+                'nome' => 'Antigo Nome',
+                'cnpj' => '11444777000161',
+                'dominio_email' => 'antigo.com',
+            ]);
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    Organização com um nome antigo, que será substituído.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($this->admin)
+                ->from(route('admin.organizacoes'))
+                ->put(route('organizacoes.alterar', $org), [
+                    'nome' => 'Novo Nome Atualizado',
+                ]);
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    Logado como administrador. O encadeamento é lido assim:
+    ->from(...): define a página "de onde a pessoa veio". O controller termina com back(), que redireciona
+    para a página anterior. Em teste não há navegador nem histórico, então precisamos informar
+    esta página; sem o from(), o back() não saberia para onde voltar.
+    ->put(url, dados): faz uma requisição HTTP PUT (usada para atualizar). route('organizacoes.alterar', $org)
+    gera a URL passando a organização; o Laravel usa o id dela na URL e, no controller, devolve
+    o objeto Organizacao correspondente (isso se chama "route model binding").
+    O array é o corpo do formulário: o campo "nome" com o novo valor.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertSessionHasNoErrors();
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+    A validação ('nome' => 'required|string|max:255') passou: não há mensagens de erro na sessão.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertRedirect(route('admin.organizacoes'));
+EXPLICAÇÃO:
+    Resposta é um redirecionamento de volta para a listagem (o efeito do back()).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseHas('organizacoes', [
+                'id' => $org->id,
+                'nome' => 'Novo Nome Atualizado',
+            ]);
+        }
+    }
+EXPLICAÇÃO:
+    Prova mais importante: no BANCO, a linha com o id desta organização agora tem o nome novo.
+    Conferir só o redirecionamento não bastaria, pois ele ocorre mesmo que a atualização não tenha gravado nada.
+
+------------------------------------------------------------------------------
+

@@ -1,0 +1,198 @@
+==============================================================================
+VerificarTipoTest  (arquivo: tests/Feature/JoaoMosson/VerificarTipoTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se um usuário PADRAO que acessa uma rota de administrador é redirecionado para a "home" com a mensagem "Acesso negado. Você não tem permissão para acessar esta área."
+* Testa se um ADMINISTRADOR_ORGANIZACAO consegue acessar essa mesma rota (status 200 e conteúdo da rota).
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Enums\TipoUsuario;
+EXPLICAÇÃO:
+    Enum com os 3 perfis do sistema: ADMINISTRADOR_ORGANIZACAO, ADMINISTRADOR_SISTEMA e PADRAO.
+    Cada um guarda um texto por trás (ex.: ADMINISTRADOR_ORGANIZACAO = 'administrador_organizacao'),
+    e é esse texto que vai para o banco de dados.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Http\Middleware\VerificarTipo;
+    use App\Models\User;
+EXPLICAÇÃO:
+    O middleware testado (app/Http/Middleware/VerificarTipo.php).
+    Um middleware é um "porteiro" que fica ENTRE a requisição e a rota: decide se a requisição passa ou é barrada.
+    Este porteiro olha o "tipo" do usuário logado e só deixa passar os tipos autorizados.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Illuminate\Support\Facades\Route;
+EXPLICAÇÃO:
+    Facade de rotas. Aqui é usada para registrar uma rota extra, só para este teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    TestCase do Laravel (sobe a aplicação, permite simular requisições HTTP e usa banco com rollback).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class VerificarTipoTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Declara a classe de teste. "extends TestCase" faz ela herdar os recursos do TestCase (os asserts, o setUp, etc.). A chave { abre o corpo da classe, que termina na última chave do arquivo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        protected function setUp(): void
+        {
+EXPLICAÇÃO:
+    setUp roda antes de CADA teste desta classe.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            parent::setUp();
+EXPLICAÇÃO:
+    Sobe a aplicação Laravel (obrigatório chamar o pai).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            Route::get('/area-restrita-admin', fn () => response('autorizado', 200))
+EXPLICAÇÃO:
+    Registra uma rota FALSA, que só existe durante o teste.
+    Por que não usar uma rota real do sistema? Para isolar o teste: queremos testar APENAS o middleware,
+    sem depender de controller, view ou banco de nenhuma tela real.
+    
+    fn () => response('autorizado', 200): função curta que devolve uma resposta com o texto "autorizado"
+    e status HTTP 200. Se a requisição chegar até aqui, é porque o middleware deixou passar.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                ->middleware(['web', VerificarTipo::sendo(TipoUsuario::ADMINISTRADOR_ORGANIZACAO, TipoUsuario::ADMINISTRADOR_SISTEMA)]);
+        }
+EXPLICAÇÃO:
+    ->middleware([...]) define os "porteiros" desta rota, que rodam na ordem:
+    'web': o grupo padrão do Laravel para páginas web (sessão, cookies, etc.). Precisamos dele para que
+    a mensagem flash ("with('error', ...)") consiga ser gravada na sessão.
+    VerificarTipo::sendo(...): método estático que monta um texto no formato
+    "tipo:administrador_organizacao,administrador_sistema".
+    O prefixo "tipo" é o apelido registrado em bootstrap/app.php para a classe VerificarTipo,
+    e o que vem depois dos ":" são os parâmetros, que chegam ao método handle() do middleware
+    como "...$tipos". Ou seja: SÓ esses dois perfis podem entrar.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_bloqueia_usuario_padrao_e_redireciona_com_mensagem_flash(): void
+        {
+EXPLICAÇÃO:
+    CASO 1 (acesso negado): um usuário comum não pode entrar numa área de administrador.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $userPadrao = User::factory()->make([
+                'tipo' => TipoUsuario::PADRAO,
+            ]);
+EXPLICAÇÃO:
+    ->make() cria o objeto User apenas NA MEMÓRIA, sem fazer INSERT no banco (->create() gravaria).
+    Aqui basta, porque o middleware só precisa LER o campo "tipo" do usuário que está na requisição.
+    Isso deixa o teste mais rápido. O ['tipo' => ...] sobrescreve o valor padrão da factory.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($userPadrao)->get('/area-restrita-admin');
+EXPLICAÇÃO:
+    actingAs($user) diz ao Laravel: "trate a próxima requisição como se este usuário já estivesse logado".
+    Não existe tela de login nem consulta ao banco. ->get('/area-restrita-admin') faz uma requisição HTTP GET
+    simulada (sem navegador, sem servidor) para a rota criada no setUp.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertRedirect(route('home'));
+EXPLICAÇÃO:
+    O que o middleware fez: viu que "padrao" não está na lista de tipos permitidos e devolveu
+    redirect()->route($user->homeUrl()). Para o tipo PADRAO, homeUrl() retorna 'home'.
+    assertRedirect confere que a resposta é um redirecionamento (status 302) para a URL dessa rota.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertSessionHas('error', 'Acesso negado. Você não tem permissão para acessar esta área.');
+        }
+EXPLICAÇÃO:
+    O redirecionamento carrega uma mensagem "flash": um dado gravado na sessão que vale só para a PRÓXIMA
+    requisição (é assim que a tela mostra um alerta de erro uma vez só). assertSessionHas(chave, valor)
+    confere que a chave 'error' existe na sessão e tem exatamente este texto.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_permite_acesso_para_usuarios_com_os_papeis_configurados(): void
+        {
+EXPLICAÇÃO:
+    CASO 2 (acesso permitido): um tipo autorizado passa pelo porteiro e chega ao conteúdo da rota.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $adminOrg = User::factory()->make([
+                'tipo' => TipoUsuario::ADMINISTRADOR_ORGANIZACAO,
+            ]);
+EXPLICAÇÃO:
+    Usuário em memória (->make) do tipo ADMINISTRADOR_ORGANIZACAO, que está na lista autorizada do setUp.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response = $this->actingAs($adminOrg)->get('/area-restrita-admin');
+EXPLICAÇÃO:
+    Requisição simulada, já autenticada como esse administrador.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $response->assertOk();
+EXPLICAÇÃO:
+    assertOk confere que o status HTTP é 200, ou seja, não houve redirecionamento nem bloqueio.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals('autorizado', $response->getContent());
+        }
+    }
+EXPLICAÇÃO:
+    Confere o CORPO da resposta. Só o código da rota devolve exatamente "autorizado", então isso prova
+    que a rota foi realmente EXECUTADA (e não apenas que o status por acaso deu 200).
+
+------------------------------------------------------------------------------
+

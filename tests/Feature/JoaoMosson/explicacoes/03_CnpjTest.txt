@@ -1,0 +1,251 @@
+==============================================================================
+CnpjTest  (arquivo: tests/Feature/JoaoMosson/CnpjTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se um CNPJ válido é aceito, com e sem máscara.
+* Testa se um CNPJ vazio ou com 13 dígitos é rejeitado.
+* Testa se CNPJs com todos os dígitos iguais são rejeitados.
+* Testa se um CNPJ com o 1º dígito verificador errado (...51) ou o 2º errado (...62) é rejeitado.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Rules\Cnpj;
+EXPLICAÇÃO:
+    A regra de validação testada: app/Rules/Cnpj.php.
+    Funciona igual à do CPF: o método validate() chama a função $fail('mensagem') se o valor for inválido
+    e não chama nada se for válido.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use PHPUnit\Framework\TestCase;
+EXPLICAÇÃO:
+    TestCase PURO do PHPUnit (não o do Laravel): o framework não sobe e não há banco de dados.
+    A regra só faz cálculo com texto/números, então o teste é unitário: rápido e sem dependências.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class CnpjTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Declara a classe de teste. "extends TestCase" faz ela herdar os recursos do TestCase (os asserts, o setUp, etc.). A chave { abre o corpo da classe, que termina na última chave do arquivo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private Cnpj $regra;
+EXPLICAÇÃO:
+    Guarda a regra para os testes usarem. "private" = visível só nesta classe; "Cnpj" = tipo obrigatório.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        protected function setUp(): void
+        {
+EXPLICAÇÃO:
+    O PHPUnit executa o setUp() antes de CADA método test_*, garantindo um objeto novo a cada teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            parent::setUp();
+EXPLICAÇÃO:
+    Obrigatório: prepara o ambiente interno do PHPUnit.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->regra = new Cnpj;
+        }
+EXPLICAÇÃO:
+    Instancia a regra real, sem simulação.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private function validarCnpj(mixed $valor): ?string
+        {
+EXPLICAÇÃO:
+    MÉTODO AUXILIAR (não começa com "test_", então o PHPUnit não o roda como teste).
+    Devolve "?string": a mensagem de erro, ou null quando o CNPJ é válido.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $erro = null;
+EXPLICAÇÃO:
+    Parte de "sem erro". Só muda se a regra chamar $fail.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->regra->validate('cnpj', $valor, function ($mensagem) use (&$erro) {
+EXPLICAÇÃO:
+    Chama a regra passando: nome do campo, valor a validar e uma função de callback que faz o papel do $fail.
+    "use (&$erro)" passa a variável POR REFERÊNCIA (o "&"). Sem ele, a função anônima trabalharia numa
+    cópia e a variável $erro daqui continuaria null, e o teste nunca perceberia as falhas.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $erro = $mensagem;
+            });
+EXPLICAÇÃO:
+    Anota a mensagem que a regra enviou.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            return $erro;
+        }
+EXPLICAÇÃO:
+    null = válido; texto = inválido (e o texto é o motivo).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_valida_cnpjs_autenticos_com_e_sem_pontuacao(): void
+        {
+EXPLICAÇÃO:
+    CASO 1 (caminho feliz): CNPJ verdadeiro passa, com ou sem pontuação.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNull($this->validarCnpj('11444777000161'));
+EXPLICAÇÃO:
+    Só números. assertNull espera null = a regra não reclamou = CNPJ aceito.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNull($this->validarCnpj('11.444.777/0001-61'));
+        }
+EXPLICAÇÃO:
+    Com a máscara (pontos, barra, traço). A regra primeiro apaga tudo que não é número
+    (preg_replace('/[^0-9]/', ...)), então este valor vira o mesmo "11444777000161" e tem de dar o mesmo resultado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_cnpj_com_menos_de_14_digitos_ou_vazio(): void
+        {
+EXPLICAÇÃO:
+    CASO 2: o CNPJ precisa ter exatamente 14 dígitos.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCnpj(''));
+EXPLICAÇÃO:
+    Vazio: depois da limpeza sobra uma string com 0 caracteres. A regra checa "strlen != 14" e reprova.
+    Este caso é o "valor limite" clássico: o menor texto possível. assertNotNull = houve mensagem de erro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCnpj('1144477700016'));
+        }
+EXPLICAÇÃO:
+    O CNPJ válido sem o último dígito: 13 dígitos. Caso "quase certo", que verifica
+    que a regra confere o tamanho e não apenas o início do número.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_sequencias_de_cnpjs_repetidos(): void
+        {
+EXPLICAÇÃO:
+    CASO 3: CNPJs com todos os dígitos iguais são inválidos.
+    O motivo: eles passariam na conta dos dígitos verificadores, mas não são emitidos. Por isso há uma checagem à parte.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals(
+EXPLICAÇÃO:
+    assertEquals(esperado, obtido): compara o texto EXATO do erro.
+    ":attribute" é um marcador do Laravel (em produção vira o nome do campo). Chamando a regra direto,
+    ele aparece literal no texto.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'O campo :attribute não é um CNPJ válido.',
+EXPLICAÇÃO:
+    O que ESPERAMOS receber.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->validarCnpj('00.000.000/0000-00')
+            );
+EXPLICAÇÃO:
+    O que a regra devolveu. A máscara é removida e sobram 14 zeros. A regex /(\d)\1{13}/ significa:
+    "um dígito qualquer (grupo 1) seguido do MESMO dígito (\1) mais 13 vezes" = 14 iguais.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCnpj('11111111111111'));
+        }
+EXPLICAÇÃO:
+    Outra sequência repetida (com 1), sem máscara. Basta saber que foi reprovado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_cnpj_com_primeiro_ou_segundo_digito_verificador_adulterado(): void
+        {
+EXPLICAÇÃO:
+    CASO 4: formato e tamanho corretos, mas um dos 2 dígitos verificadores (os 2 últimos) está errado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCnpj('11444777000162'));
+EXPLICAÇÃO:
+    11.444.777/0001-61 é o autêntico
+    
+    Como a regra confere (base 114447770001 + dígitos verificadores "61"):
+    1º dígito (posição 13): os 12 primeiros dígitos (114447770001) são multiplicados pelos pesos
+    5,4,3,2,9,8,7,6,5,4,3,2 e somados = 214. Resto da divisão por 11: 214 % 11 = 5.
+    Como o resto é >= 2, o dígito é 11 - 5 = 6.  (Se o resto fosse 0 ou 1, o dígito seria 0.)
+    2º dígito (posição 14): os 13 primeiros (1144477700016) com pesos 6,5,4,3,2,9,8,7,6,5,4,3,2 = 230.
+    230 % 11 = 10, então o dígito é 11 - 10 = 1.
+    Portanto o CNPJ correto termina em "61".
+    
+    Termina em 62: o 1º dígito (6) está certo, mas o 2º deveria ser 1 e veio 2. Reprovado no 2º cálculo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCnpj('11444777000151'));
+        }
+    }
+EXPLICAÇÃO:
+    Termina em 51: o 1º dígito deveria ser 6 e veio 5. Já é reprovado no 1º cálculo.
+    Os dois casos juntos provam que AMBOS os dígitos verificadores são conferidos.
+
+------------------------------------------------------------------------------
+

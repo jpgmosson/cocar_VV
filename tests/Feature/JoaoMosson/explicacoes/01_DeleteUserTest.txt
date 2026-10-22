@@ -1,0 +1,148 @@
+==============================================================================
+DeleteUserTest  (arquivo: tests/Feature/JoaoMosson/DeleteUserTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se, ao excluir um usuário logado, ele some da tabela "users".
+* Testa se, depois disso, não há mais ninguém autenticado.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    "namespace" é o endereço lógico da classe. Ele espelha a pasta (tests/Feature/JoaoMosson)
+    e é por ele que o autoload do Composer encontra este arquivo quando o PHPUnit precisa dele.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Actions\Fortify\DeleteUser;
+EXPLICAÇÃO:
+    Os "use" abaixo não executam nada: apenas permitem escrever o nome curto da classe
+    (ex.: DeleteUser) em vez do caminho completo (App\Actions\Fortify\DeleteUser).
+    A classe que está sendo TESTADA. Ela está em app/Actions/Fortify/DeleteUser.php e faz duas coisas, nesta ordem:
+    1) Auth::logout()   -> encerra a sessão do usuário
+    2) $user->delete()  -> apaga a linha dele da tabela "users"
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Models\User;
+EXPLICAÇÃO:
+    Model Eloquent da tabela "users". Aqui o usamos para criar um usuário de teste via factory.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Illuminate\Support\Facades\Auth;
+EXPLICAÇÃO:
+    Facade de autenticação. Dá acesso ao "guard" de sessão do Laravel:
+    Auth::login($user) loga, Auth::check() pergunta "tem alguém logado?", Auth::logout() desloga.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    Classe base dos testes do projeto (tests/TestCase.php). Ela:
+    - sobe a aplicação Laravel inteira antes de cada teste;
+    - usa o trait RefreshDatabase: roda as migrations e envolve cada teste numa transação
+    que é desfeita (rollback) no final. Resultado: tudo que o teste grava no banco some
+    ao terminar, e um teste nunca enxerga os dados de outro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class DeleteUserTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Declara a classe de teste. "extends TestCase" faz ela herdar os recursos do TestCase (os asserts, o setUp, etc.). A chave { abre o corpo da classe, que termina na última chave do arquivo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_exclui_usuario_e_encerra_sessao_ativa(): void
+        {
+EXPLICAÇÃO:
+    O PHPUnit executa todo método público cujo nome começa com "test_".
+    O nome descreve o comportamento esperado: "exclui usuário E encerra sessão ativa".
+    ": void" significa que o método não retorna nada.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $user = User::factory()->create();
+EXPLICAÇÃO:
+    ---------- ARRANGE (preparar o cenário) ----------
+    User::factory() usa database/factories/UserFactory.php, que sabe gerar nome, e-mail, CPF
+    e senha falsos. ->create() monta o objeto E executa o INSERT no banco, devolvendo o User já com "id".
+    (Existe também ->make(), que só monta o objeto na memória sem gravar. Aqui precisamos gravar,
+    porque o que vamos verificar depois é justamente o registro DESAPARECER da tabela.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            Auth::login($user);
+EXPLICAÇÃO:
+    Coloca esse usuário na sessão, simulando uma pessoa que fez login. Sem isso não haveria sessão para encerrar.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertTrue(Auth::check());
+EXPLICAÇÃO:
+    Verificação de pré-condição: confirma que o login funcionou ANTES de executar a ação.
+    Isso é importante: se o usuário nunca tivesse ficado logado, o assertFalse(Auth::check()) lá embaixo
+    passaria sem provar nada (um "falso positivo"). Aqui garantimos que o estado inicial é "logado".
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $action = new DeleteUser;
+EXPLICAÇÃO:
+    ---------- ACT (executar a ação testada) ----------
+    A Action é uma classe simples, sem dependências, então basta instanciá-la com "new".
+    Não passamos por rota nem requisição HTTP: chamamos o método diretamente (teste da unidade).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $action->delete($user);
+EXPLICAÇÃO:
+    Executa a exclusão. Internamente: primeiro desloga (para a sessão não ficar apontando
+    para um usuário que vai deixar de existir) e depois apaga o registro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseMissing('users', [
+                'id' => $user->id,
+            ]);
+EXPLICAÇÃO:
+    ---------- ASSERT (conferir o resultado) ----------
+    assertDatabaseMissing(tabela, condições) roda um SELECT na tabela "users" procurando uma linha
+    com id = $user->id e espera encontrar ZERO linhas. Prova que o DELETE realmente aconteceu no banco
+    (e não apenas que o objeto $user sumiu da memória).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertFalse(Auth::check());
+        }
+    }
+EXPLICAÇÃO:
+    Agora ninguém deve estar autenticado. Prova que o Auth::logout() da Action foi executado.
+
+------------------------------------------------------------------------------
+

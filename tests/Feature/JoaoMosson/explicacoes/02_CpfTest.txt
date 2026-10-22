@@ -1,0 +1,282 @@
+==============================================================================
+CpfTest  (arquivo: tests/Feature/JoaoMosson/CpfTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se um CPF válido é aceito, com e sem pontos e traço.
+* Testa se um CPF com 9 ou 12 dígitos é rejeitado.
+* Testa se CPFs com todos os dígitos iguais (000..., 111..., 999...) são rejeitados com a mensagem "O campo :attribute não é um CPF válido."
+* Testa se um CPF com o último dígito errado (...26 em vez de ...25) é rejeitado.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Rules\Cpf;
+EXPLICAÇÃO:
+    A regra de validação que está sendo testada: app/Rules/Cpf.php.
+    Ela é uma "Validation Rule" do Laravel: tem um método validate($attribute, $value, $fail)
+    que deve CHAMAR a função $fail('mensagem') quando o valor for inválido. Se o valor for válido, não chama nada.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use PHPUnit\Framework\TestCase;
+EXPLICAÇÃO:
+    ATENÇÃO: este é o TestCase PURO do PHPUnit, e não o Tests\TestCase do Laravel (que os outros arquivos usam).
+    Diferença prática: o Laravel NÃO é iniciado e NÃO existe banco de dados neste teste.
+    Isso é possível porque a regra Cpf só faz conta com texto e números. É um teste unitário:
+    rápido e isolado, sem depender de nada externo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class CpfTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Declara a classe de teste. "extends TestCase" faz ela herdar os recursos do TestCase (os asserts, o setUp, etc.). A chave { abre o corpo da classe, que termina na última chave do arquivo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private Cpf $regra;
+EXPLICAÇÃO:
+    Propriedade da classe que guardará a regra. "private" = só esta classe enxerga.
+    "Cpf" na frente é o tipo: só aceita um objeto da classe Cpf.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        protected function setUp(): void
+        {
+EXPLICAÇÃO:
+    O PHPUnit chama setUp() automaticamente ANTES DE CADA método test_*.
+    Assim cada teste começa com uma instância nova e nenhum teste contamina o outro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            parent::setUp();
+EXPLICAÇÃO:
+    Chama o setUp da classe-mãe (PHPUnit). É obrigatório: é ele que prepara o ambiente interno do teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->regra = new Cpf;
+        }
+EXPLICAÇÃO:
+    Cria a regra real (nada de "mock"/simulação) que será usada em todos os testes.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private function validarCpf(mixed $valor): ?string
+        {
+EXPLICAÇÃO:
+    MÉTODO AUXILIAR: não começa com "test_", então o PHPUnit NÃO o executa como teste.
+    Serve para evitar repetir o mesmo código em todos os testes.
+    Entrada: qualquer valor (mixed). Saída: "?string" = ou uma string (a mensagem de erro) ou null (sem erro).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $erro = null;
+EXPLICAÇÃO:
+    Começa em null, que significa "nenhum erro". Só vira texto se a regra reclamar.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->regra->validate('cpf', $valor, function ($mensagem) use (&$erro) {
+EXPLICAÇÃO:
+    Chama a regra com três argumentos: o nome do campo ('cpf'), o valor a validar e uma função de callback.
+    Em produção o Laravel entrega o $fail para a regra. Aqui nós mesmos entregamos uma função nossa
+    que apenas ANOTA a mensagem. Se a regra achar o CPF inválido, ela chama $fail('texto') e cai aqui.
+    
+    "function ($mensagem) use (&$erro)" é uma função anônima (closure).
+    Normalmente uma closure recebe uma CÓPIA das variáveis de fora, e alterar a cópia não afeta a original.
+    O "&" antes de $erro passa a variável POR REFERÊNCIA: a closure mexe na variável $erro real
+    deste método. Sem o "&", $erro continuaria null para sempre e o teste nunca detectaria falhas.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $erro = $mensagem;
+            });
+EXPLICAÇÃO:
+    Guarda a mensagem enviada pela regra.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            return $erro;
+        }
+EXPLICAÇÃO:
+    null  = a regra não chamou $fail = CPF VÁLIDO.
+    texto = a regra chamou $fail    = CPF INVÁLIDO (e o texto é o motivo).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_valida_cpfs_validos_com_e_sem_mascara(): void
+        {
+EXPLICAÇÃO:
+    CASO 1 (caminho feliz): um CPF verdadeiro deve passar, escrito de qualquer forma.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNull($this->validarCpf('52998224725'));
+EXPLICAÇÃO:
+    CPF só com números. assertNull espera null, ou seja, que a regra NÃO tenha reclamado.
+    Como a conta fecha (veja o passo a passo no último teste deste arquivo), o CPF é aceito.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNull($this->validarCpf('529.982.247-25'));
+        }
+EXPLICAÇÃO:
+    O mesmo CPF, agora com pontos e traço (a "máscara"). A regra começa com
+    preg_replace('/[^0-9]/', '', $valor), que apaga tudo que NÃO é dígito. Então "529.982.247-25"
+    vira "52998224725" antes de qualquer conta, e o resultado precisa ser igual ao anterior.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_cpf_com_quantidade_de_digitos_incorreta(): void
+        {
+EXPLICAÇÃO:
+    CASO 2: o CPF precisa ter exatamente 11 dígitos.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCpf('123456789'));
+EXPLICAÇÃO:
+    Só 9 dígitos. A regra faz "strlen($cpf) != 11" e já reprova. assertNotNull espera que HAJA
+    mensagem de erro (qualquer uma). Aqui não comparamos o texto, só que a regra reclamou.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCpf('123456789012'));
+        }
+EXPLICAÇÃO:
+    12 dígitos: passou do tamanho. Também reprovado pela mesma checagem (!= 11, e não apenas "< 11").
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_cpfs_com_todos_os_digitos_iguais(): void
+        {
+EXPLICAÇÃO:
+    CASO 3: CPFs com todos os dígitos iguais são inválidos.
+    Por quê? Porque 111.111.111-11 e similares passariam na conta dos dígitos verificadores
+    (a matemática "fecha"), mas a Receita Federal não os emite. Por isso a regra tem um teste à parte para isso.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $cpfsInvalidos = [
+EXPLICAÇÃO:
+    Lista dos valores que serão testados, um após o outro, no foreach abaixo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                '000.000.000-00',
+                '11111111111',
+                '99999999999',
+            ];
+EXPLICAÇÃO:
+    Com máscara: prova que a limpeza (tirar pontos e traço) acontece ANTES da checagem de repetição.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            foreach ($cpfsInvalidos as $cpf) {
+EXPLICAÇÃO:
+    Repete o bloco para cada CPF da lista. Em cada volta, $cpf é um dos valores.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->assertEquals(
+EXPLICAÇÃO:
+    assertEquals(esperado, obtido, mensagem): aqui compara o TEXTO EXATO do erro.
+    ":attribute" é um marcador do Laravel que, em produção, é trocado pelo nome do campo
+    (ex.: "O campo cpf não é um CPF válido."). Como a regra é chamada direto, ele aparece literal.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    'O campo :attribute não é um CPF válido.',
+EXPLICAÇÃO:
+    1º argumento: o que ESPERAMOS receber.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    $this->validarCpf($cpf),
+EXPLICAÇÃO:
+    2º argumento: o que REALMENTE veio da regra para este CPF.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                    "Falha ao validar CPF inválido conhecido: {$cpf}"
+                );
+            }
+        }
+EXPLICAÇÃO:
+    3º argumento (opcional): texto mostrado SE esta comparação falhar. Como estamos num laço,
+    sem isso o PHPUnit não diria qual dos três CPFs quebrou. "{$cpf}" insere o valor da volta atual.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_rejeita_cpf_com_digitos_verificadores_incorretos(): void
+        {
+EXPLICAÇÃO:
+    CASO 4: tem 11 dígitos e não é repetido, mas os 2 últimos números (dígitos verificadores) não conferem.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($this->validarCpf('52998224726'));
+        }
+    }
+EXPLICAÇÃO:
+    529.982.247-25 é o correto; invertendo para 26
+    
+    Como a regra confere o CPF (exemplo com 529.982.247-25; os 9 primeiros dígitos são a "base"):
+    1º dígito verificador: multiplica os 9 dígitos da base pelos pesos 10,9,8,...,2 e soma:
+    5*10 + 2*9 + 9*8 + 9*7 + 8*6 + 2*5 + 2*4 + 4*3 + 7*2 = 295
+    (295 * 10) % 11 % 10 = 2   -> o 10º dígito do CPF TEM que ser 2. E é (529.982.247-2x). OK.
+    2º dígito verificador: agora usa os 10 primeiros dígitos e pesos 11,10,9,...,2:
+    5*11 + 2*10 + 9*9 + 9*8 + 8*7 + 2*6 + 2*5 + 4*4 + 7*3 + 2*2 = 347
+    (347 * 10) % 11 % 10 = 5   -> o 11º dígito TEM que ser 5. Em 52998224725 é 5. OK.
+    
+    Em "52998224726" o último dígito é 6, mas a conta exige 5. A regra detecta a diferença e chama $fail.
+    O 1º dígito verificador continua certo, então este caso prova que o 2º também é conferido.
+
+------------------------------------------------------------------------------
+

@@ -1,0 +1,327 @@
+==============================================================================
+CreateNewUserTest  (arquivo: tests/Feature/JoaoMosson/CreateNewUserTest.php)
+==============================================================================
+
+O QUE ESTE TESTE VERIFICA
+------------------------------------------------------------------------------
+* Testa se o cadastro com e-mail de um domínio que nenhuma organização possui é bloqueado, com a mensagem "O domínio do seu e-mail não está cadastrado com nenhuma organização parceira.", e se o usuário não é gravado.
+* Testa se o cadastro com e-mail de um domínio de organização existente cria o usuário como PADRAO, vinculado a essa organização.
+* Testa se, nesse cadastro, a carteira do usuário também é criada.
+
+EXPLICAÇÃO LINHA POR LINHA
+Cada bloco mostra o CÓDIGO e, logo abaixo, a EXPLICAÇÃO dele.
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    <?php
+EXPLICAÇÃO:
+    Abre o código PHP. Todo arquivo PHP começa com esta marca.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    namespace Tests\Feature\JoaoMosson;
+EXPLICAÇÃO:
+    Endereço lógico da classe (espelha a pasta tests/Feature/JoaoMosson).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Actions\Fortify\CreateNewUser;
+EXPLICAÇÃO:
+    A classe testada: app/Actions/Fortify/CreateNewUser.php.
+    Uma "Action" é uma classe com UMA responsabilidade; esta cadastra um usuário comum. O método create($dados) faz,
+    em ordem:
+    1) valida os dados (nome, e-mail único, senha, CPF válido e único);
+    2) pega o domínio do e-mail (o que vem depois do "@");
+    3) procura uma Organizacao cujo "dominio_email" seja igual a esse domínio;
+    4) se não achar, lança uma ValidationException (erro de validação);
+    5) se achar, cria o User já ligado a essa organização, com tipo PADRAO e senha criptografada;
+    6) cria a Carteira do usuário e o devolve.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Enums\TipoUsuario;
+EXPLICAÇÃO:
+    Enum dos perfis (PADRAO, ADMINISTRADOR_ORGANIZACAO, ADMINISTRADOR_SISTEMA).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use App\Models\Organizacao;
+    use App\Models\User;
+EXPLICAÇÃO:
+    Model da empresa parceira. Cada Organizacao tem um "dominio_email" (ex.: acme.com) que identifica seus funcionários.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Illuminate\Validation\ValidationException;
+EXPLICAÇÃO:
+    Exceção do Laravel lançada quando uma validação falha. Ela carrega as mensagens de erro por campo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    use Tests\TestCase;
+EXPLICAÇÃO:
+    TestCase do Laravel: sobe a aplicação e usa banco com rollback (tudo que o teste grava some no fim).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+    class CreateNewUserTest extends TestCase
+    {
+EXPLICAÇÃO:
+    Declara a classe de teste. "extends TestCase" faz ela herdar os recursos do TestCase (os asserts, o setUp, etc.). A chave { abre o corpo da classe, que termina na última chave do arquivo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        private CreateNewUser $action;
+EXPLICAÇÃO:
+    Guarda a Action para reaproveitar nos dois testes.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        protected function setUp(): void
+        {
+EXPLICAÇÃO:
+    Roda antes de CADA teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            parent::setUp();
+EXPLICAÇÃO:
+    Sobe o Laravel e prepara o banco (obrigatório).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->action = new CreateNewUser;
+        }
+EXPLICAÇÃO:
+    Instancia a Action. Ela é chamada DIRETAMENTE, sem rota nem HTTP: o foco é só a regra de negócio.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_impede_cadastro_quando_o_dominio_do_email_nao_pertence_a_nenhuma_organizacao(): void
+        {
+EXPLICAÇÃO:
+    CASO 1 (falha esperada): e-mail de um domínio que nenhuma organização cadastrou deve ser barrado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $dados = [
+                'name' => 'João Silva',
+                'email' => 'joao@desconhecido.com.br',
+                'password' => 'SenhaForte123!',
+EXPLICAÇÃO:
+    Dados como se viessem do formulário de cadastro. Repare que NÃO criamos nenhuma organização no banco,
+    então o domínio "desconhecido.com.br" não existe em lugar algum.
+    Todo o resto está CORRETO de propósito: assim a única falha possível é a do domínio.
+    (Se a senha ou o CPF fossem inválidos, a falha viria da etapa 1 e não testaríamos o que queremos.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'password_confirmation' => 'SenhaForte123!',
+EXPLICAÇÃO:
+    A regra de senha tem "confirmed": exige um campo "password_confirmation" igual à senha.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'cpf' => '52998224725',
+            ];
+EXPLICAÇÃO:
+    CPF válido (passa pela regra Cpf).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->expectException(ValidationException::class);
+EXPLICAÇÃO:
+    Dizemos ao PHPUnit: "este teste SÓ passa se uma ValidationException sair do método".
+    Se o código rodar até o fim sem lançar nenhuma exceção, o teste FALHA.
+    Tem que ser declarado ANTES do código que lança a exceção.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            try {
+EXPLICAÇÃO:
+    Abre um bloco try: o código dentro dele é executado normalmente e, se lançar uma exceção, o bloco catch logo abaixo a captura em vez de deixá-la derrubar o teste.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->action->create($dados);
+            } catch (ValidationException $e) {
+EXPLICAÇÃO:
+    Executa o cadastro. Como o domínio não existe, a Action lança ValidationException aqui dentro.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->assertArrayHasKey('email', $e->errors());
+EXPLICAÇÃO:
+    Este bloco permite conferir DETALHES da exceção (algo que o expectException sozinho não faz).
+    $e->errors() devolve um array no formato ['campo' => ['mensagem 1', 'mensagem 2', ...]].
+    Aqui conferimos que existe uma chave 'email': o erro está associado ao campo certo do formulário.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->assertEquals(
+                    'O domínio do seu e-mail não está cadastrado com nenhuma organização parceira.',
+                    $e->errors()['email'][0]
+                );
+EXPLICAÇÃO:
+    Confere a PRIMEIRA mensagem ([0]) do campo e-mail, com o texto exato esperado.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                $this->assertDatabaseMissing('users', ['email' => 'joao@desconhecido.com.br']);
+EXPLICAÇÃO:
+    Garante que nada foi gravado: não pode existir um usuário com esse e-mail na tabela "users".
+    (Falha de validação não deve deixar "lixo" no banco.)
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                throw $e;
+            }
+        }
+EXPLICAÇÃO:
+    Relança a exceção. Isso é ESSENCIAL: o catch "engoliu" a exceção, então sem este throw
+    ela não sairia do método e o expectException lá de cima não seria satisfeito (o teste falharia).
+    O fluxo é: lançada -> capturada -> conferida -> relançada -> PHPUnit confirma que era a esperada.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+        public function test_cadastra_usuario_com_sucesso_vincula_a_organizacao_e_cria_carteira(): void
+        {
+EXPLICAÇÃO:
+    CASO 2 (caminho feliz): o cadastro funciona, o usuário vai para a organização do seu domínio e ganha uma carteira.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $organizacao = Organizacao::create([
+                'nome' => 'Acme Corp',
+EXPLICAÇÃO:
+    ---------- ARRANGE ----------
+    Cria e grava no banco a organização dona do domínio "acme.com".
+    Sem ela, a Action cairia no erro do teste anterior.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'cnpj' => '11444777000161',
+EXPLICAÇÃO:
+    CNPJ válido (a regra Cnpj só é conferida no cadastro de organização pelo controller, mas usamos um válido).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'dominio_email' => 'acme.com',
+            ]);
+EXPLICAÇÃO:
+    A Action compara o texto depois do "@" do e-mail com ESTE campo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $dados = [
+                'name' => 'Maria Souza',
+                'email' => 'maria@acme.com',
+                'password' => 'SenhaForte123!',
+                'password_confirmation' => 'SenhaForte123!',
+                'cpf' => '52998224725',
+            ];
+EXPLICAÇÃO:
+    Dados do novo usuário. O e-mail termina em "acme.com", igual ao domínio da organização criada acima.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $user = $this->action->create($dados);
+EXPLICAÇÃO:
+    ---------- ACT ----------
+    Executa o cadastro e guarda o User retornado, para conferirmos nas próximas linhas.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertInstanceOf(User::class, $user);
+EXPLICAÇÃO:
+    ---------- ASSERT ----------
+    O retorno é um objeto da classe User (e não null, array etc.).
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals(TipoUsuario::PADRAO, $user->tipo);
+EXPLICAÇÃO:
+    Usuário cadastrado por esse fluxo é sempre PADRAO (passageiro/motorista), nunca administrador.
+    $user->tipo já é um objeto enum (e não um texto) por causa do "cast" definido no model User;
+    por isso comparamos com o próprio enum.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertEquals($organizacao->id, $user->organizacao_id);
+EXPLICAÇÃO:
+    O usuário foi ligado à organização certa: a chave estrangeira "organizacao_id" dele deve ser o id
+    da organização criada no Arrange.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseHas('users', [
+                'id' => $user->id,
+                'email' => 'maria@acme.com',
+                'organizacao_id' => $organizacao->id,
+EXPLICAÇÃO:
+    Agora conferimos o BANCO DE DADOS (e não só o objeto em memória): a tabela "users" deve ter UMA linha
+    com TODOS estes valores ao mesmo tempo.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+                'tipo' => TipoUsuario::PADRAO->value,
+            ]);
+EXPLICAÇÃO:
+    No banco o tipo é gravado como texto simples. "->value" extrai esse texto do enum ('padrao').
+    Sem o ->value, a comparação seria entre um objeto enum e um texto, e não funcionaria.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertNotNull($user->carteira);
+EXPLICAÇÃO:
+    Valida se a carteira associada foi persistida
+    $user->carteira acessa a relação "um usuário tem uma carteira". O Laravel busca a carteira no banco
+    na hora do acesso. Se não existisse, o resultado seria null; assertNotNull prova que ela existe.
+
+------------------------------------------------------------------------------
+
+CÓDIGO:
+            $this->assertDatabaseHas('carteiras', [
+                'user_id' => $user->id,
+            ]);
+        }
+    }
+EXPLICAÇÃO:
+    Reforço direto na tabela "carteiras": existe uma linha ligada a este usuário (user_id).
+
+------------------------------------------------------------------------------
+
