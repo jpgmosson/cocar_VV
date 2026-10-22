@@ -27,4 +27,4 @@ _ide_helper.php
 antigoReadMe
 tests/Robot/local.args
 **/__pycache__/*
-results
+/results
